@@ -1,0 +1,25 @@
+[global]
+template_dir = "templates/"
+keep_alive = 5
+limits = { forms = 32768 }
+
+[global.databases]
+postgres_db = { url = "postgres://blog:blog@localhost/blog" }
+
+[development]
+address = "localhost"
+port = 8000
+log = "normal"
+secret_key = "cZSiY8L2Tlpi9p+XEeAZ6f8uAIsJD5V3yXAuHGjojkk="
+
+
+[staging]
+address = "0.0.0.0"
+port = 8000
+log = "normal"
+secret_key = "cZSiY8L2Tlpi9p+XEeAZ6f8uAIsJD5V3yXAuHGjojkk="
+
+[production]
+address = "0.0.0.0"
+port = 6789
+log = "critical"
