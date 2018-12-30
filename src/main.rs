@@ -25,6 +25,12 @@ RSS
 Sitemap
 Robots.txt
 (RDFa, RDF/XML)
+(Creative Commons)
+(Generar BibTeX)
+(ActivityPub feed)
+(resaltado sintaxis)
+(SPARQL Endpoint? and individual RDF resources bajo demanda)
+(una vez al dia, se reconstruye la base de datos RDF global)
 (Comentarios, contacto, encuestas)
 Admin
 (API MicroPub? Python?)
