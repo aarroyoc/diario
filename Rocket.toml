@@ -4,7 +4,7 @@ keep_alive = 5
 limits = { forms = 32768 }
 
 [global.databases]
-postgres_db = { url = "postgres://blog:blog@localhost/blog" }
+postgres_db = { url = "postgres://blog:blog@192.168.0.158/blog" }
 
 [development]
 address = "localhost"
