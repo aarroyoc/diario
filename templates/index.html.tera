@@ -6,5 +6,12 @@
     </head>
     <body>
         <h1>Adrianistán</h1>
+        {% for post in posts %}
+            <section>
+                <a href="/{{ post.name }}"><h4>{{ post.title }}</h4></a>
+                <div class="excerpt">{{ post.excerpt }}</div>
+            </section>
+        {% endfor %}
+        <a href="/?date={{ last_date }}">Más entradas</a>
     </body>
 </html>

@@ -23,9 +23,10 @@ Post
 Páginas
 Contacto
 RSS
-Sitemap
+Sitemap (Transformación RDF?)
 Robots.txt
 (RDFa, RDF/XML)
+(OpenSearch)
 (Creative Commons)
 (Generar BibTeX)
 (ActivityPub feed)
@@ -36,6 +37,7 @@ Robots.txt
 Admin
 (API MicroPub? Python?)
 (Analíticas)
+(Print version, PDF)
 Cookie: cZSiY8L2Tlpi9p+XEeAZ6f8uAIsJD5V3yXAuHGjojkk=
 */
 
@@ -45,8 +47,9 @@ fn main() {
     .attach(Database::fairing())
     .mount("/", routes![
         controllers::index::index,
-        controllers::index::index_page,
-        controllers::post::post
+        controllers::index::index_date,
+        controllers::post::post,
+        controllers::post::post_date
     ])
     .mount("/static", StaticFiles::from("/static"))
     .launch();

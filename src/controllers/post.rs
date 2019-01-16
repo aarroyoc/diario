@@ -3,9 +3,23 @@ use diesel::prelude::*;
 use crate::Database;
 use crate::schema::{post,username};
 
-#[get("/<year>/<month>/<day>/<slug>")]
-pub fn post(year: u32, month: u8, day: u8, slug: String, conn: Database) -> Option<Template> {
+#[get("/<slug>")]
+pub fn post(slug: String, conn: Database) -> Option<Template>{
+    let post = post::table
+        .filter(post::name.eq(slug))
+        .first::<crate::models::Post>(&conn.0);
 
+    if let Ok(post) = post {
+        return Some(Template::render("post",&post));
+    } else {
+        return None;
+    }
+}
+
+#[get("/<year>/<month>/<day>/<slug>")]
+pub fn post_date(year: u32, month: u8, day: u8, slug: String, conn: Database) -> Option<Template> {
+
+    // CHECK DATE ALSO
     let post = post::table
         .filter(post::name.eq(slug))
         .first::<crate::models::Post>(&conn.0);
