@@ -49,7 +49,8 @@ fn main() {
         controllers::index::index,
         controllers::index::index_date,
         controllers::post::post,
-        controllers::post::post_date
+        controllers::post::post_date,
+        controllers::comment::post_comment
     ])
     .mount("/static", StaticFiles::from("static"))
     .launch();

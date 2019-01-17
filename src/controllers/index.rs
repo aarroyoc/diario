@@ -72,7 +72,7 @@ pub fn index_date(date: i64, conn: Database) -> Option<Template> {
             post::excerpt,
             post::date
         ))
-        .filter(post::date.lt(date))
+        .filter(post::date.lt(date).and(post::status.eq("published")))
         .order(post::date.desc())
         .limit(10)
         .load::<ListingPost>(&conn.0)

@@ -1,12 +1,7 @@
 body{
     font-family: 'IBM Plex Serif', serif;
     background-color: rgb(240, 255, 228);
-    font-size: 1.25vw;
-}
-@media (orientation: portrait){
-    body{
-        font-size: 1.25vh;
-    }
+    font-size: 1.15em;
 }
 h1{
     font-family: "IBM Plex Serif";
@@ -16,9 +11,12 @@ h1 > a {
     color: black;
     text-decoration: none;
 }
+h1 > a:visited{
+    color: black;
+}
 h2{
     font-family: "IBM Plex Serif";
-    font-size: 2vw;
+    font-size: 1.5em;
     font-weight: 150;
 }
 .title{
@@ -39,6 +37,10 @@ nav > a {
     margin-bottom: 20px;
     font-family: "IBM Plex Sans";
     font-weight: bold;
+    color: black;
+}
+
+nav > a:visited{
     color: black;
 }
 
@@ -64,4 +66,12 @@ main{
 footer{
     margin-top: 50px;
     text-align: center;
+}
+
+a{
+    color: black;
+}
+
+a:visited{
+    color: gray;
 }

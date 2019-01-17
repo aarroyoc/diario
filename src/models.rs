@@ -1,6 +1,7 @@
 use chrono::prelude::*;
 use diesel::prelude::*;
 
+use crate::schema::*;
 
 #[derive(Queryable)]
 pub struct Username {
@@ -18,7 +19,7 @@ pub struct Post {
     pub content: String,
     pub title: String,
     pub excerpt: String,
-    pub status: String,
+    pub status: String, /* draft, published */
     pub comment_status: String,
     pub name: String,
 }
@@ -28,7 +29,7 @@ pub struct Comment {
     pub id: i32,
     pub date: NaiveDateTime,
     pub content: String,
-    pub status: String,
+    pub status: String, /* pending, approved, deleted */
     pub post_id: i32,
     pub author_name: String,
     pub author_mail: Option<String>,

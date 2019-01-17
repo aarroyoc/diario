@@ -9,6 +9,7 @@ use crate::models::Comment;
 #[derive(Queryable)]
 struct PostViewDB {
     pub display_name: String,
+    pub id: i32,
     pub content: String,
     pub title: String,
     pub date: NaiveDateTime,
@@ -29,6 +30,7 @@ struct PostViewTera {
     pub title: String,
     pub date: String,
     pub name: String,
+    pub id: i32,
     pub comments: Vec<CommentViewTera>,
 }
 
@@ -38,6 +40,7 @@ pub fn post(slug: String, conn: Database) -> Option<Template>{
         .inner_join(username::table)
         .select((
             username::display_name,
+            post::id,
             post::content,
             post::title,
             post::date
@@ -58,7 +61,7 @@ pub fn post(slug: String, conn: Database) -> Option<Template>{
             comment::author_useragent
         ))
         .inner_join(post::table)
-        .filter(post::slug.eq(&slug))
+        .filter(post::slug.eq(&slug).and(comment::status.eq("approved")))
         .load::<Comment>(&conn.0);
     
 
@@ -80,6 +83,7 @@ pub fn post(slug: String, conn: Database) -> Option<Template>{
                 content: post.content,
                 title: post.title,
                 name: slug,
+                id: post.id,
                 date: post.date.format("%e/%m/%Y").to_string(),
                 comments: comments_view,
             };
@@ -93,20 +97,21 @@ pub fn post(slug: String, conn: Database) -> Option<Template>{
     }
 }
 
+/* Be compatible with WordPress paths, but set canonical page to SLUG */
 #[get("/<year>/<month>/<day>/<slug>")]
-pub fn post_date(year: u32, month: u8, day: u8, slug: String, conn: Database) -> Option<Template> {
+pub fn post_date(year: i32, month: u32, day: u32, slug: String, conn: Database) -> Option<Template> {
 
-    // CHECK DATE ALSO
-    let post = post::table
-        .filter(post::slug.eq(slug))
+    let date = NaiveDate::from_ymd(year, month, day);
+    let date = date.and_hms(0, 0, 0);
+    let post_x = post::table
+        .filter(post::slug.eq(&slug).and(post::date.eq(date)))
         .first::<crate::models::Post>(&conn.0);
-
-    //let debug = diesel::debug_query::<diesel::pg::Pg, _>(&post);
-    //println!("The insert query: {:?}", debug);
-
-    if let Ok(post) = post {
-        return Some(Template::render("post",&post));
+    if post_x.is_ok() {
+        return post(slug,conn);
     } else {
         return None;
     }
+
+    //let debug = diesel::debug_query::<diesel::pg::Pg, _>(&post);
+    //println!("The insert query: {:?}", debug);
 }

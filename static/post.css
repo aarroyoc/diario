@@ -11,3 +11,22 @@
 .comment .name {
     font-weight: bold;
 }
+.form-center{
+    display: flex;
+    justify-content: center;
+}
+.comment-form{
+    display: flex;
+    flex-direction: column;
+    width: 60vw;
+}
+.comment-form > div{
+    display: flex;
+}
+.comment-form > div > * {
+    flex: 1;
+    margin: 5px;
+}
+.comment-form > textarea{
+    height: 5em;
+}

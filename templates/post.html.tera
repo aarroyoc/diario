@@ -23,10 +23,32 @@
         <div class="comment">
             <img src="https://www.gravatar.com/avatar/{{ comment.email_hash }}?d=https://blog.adrianistan.eu/static/default.png&s=40" width="40" height="40">
             <div>
-                <div class="name">{{ comment.author }}</div>
+                <div><span class="name">{{ comment.author }}</span> <time>{{ comment.date }}</time></div>
                 <div class="comment-content">{{ comment.content }}</div>
             </div>
         </div>
     {% endfor %}
+</div>
+<div class="form-center">
+<form class="comment-form" method="POST" action="/comment">
+    <h3>Añadir comentario</h3>
+    <input type="hidden" name="slug" value="{{ name }}">
+    <input type="hidden" name="post_id" value="{{ id }}">
+    <div>
+        <label>Nombre*: </label>
+        <input type="text" name="name" required>
+    </div>
+    <div>
+        <label>Email*: </label>
+        <input type="email" name="mail" required>
+    </div>
+    <div>
+        <label>URL: </label>
+        <input type="url" name="url">
+    </div>
+    <textarea required name="content"></textarea>
+    <input type="submit" value="Enviar comentario">
+    <small>Todos los comentarios están sujetos a moderación</small>
+</form>
 </div>
 {% endblock main %}
