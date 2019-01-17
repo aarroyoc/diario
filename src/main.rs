@@ -51,6 +51,6 @@ fn main() {
         controllers::post::post,
         controllers::post::post_date
     ])
-    .mount("/static", StaticFiles::from("/static"))
+    .mount("/static", StaticFiles::from("static"))
     .launch();
 }

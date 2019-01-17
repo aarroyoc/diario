@@ -1,0 +1,13 @@
+.comment{
+    background-color: rgb(172, 179, 204);
+    margin-bottom: 50px;
+    display: flex;
+    align-items: center;
+}
+.comment > img {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+.comment .name {
+    font-weight: bold;
+}

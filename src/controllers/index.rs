@@ -68,7 +68,7 @@ pub fn index_date(date: i64, conn: Database) -> Option<Template> {
     let posts = post::table
         .select((
             post::title,
-            post::name,
+            post::slug,
             post::excerpt,
             post::date
         ))

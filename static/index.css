@@ -1,0 +1,15 @@
+.more{
+    margin-top: 25px;
+    display: flex;
+    justify-content: center;
+    font-family: "IBM Plex Sans";
+    font-size: 2vw;
+}
+.more > a{
+    color: black;
+}
+
+.post-title{
+    color: black;
+    font-style: italic;
+}

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{% block title %}{% endblock title %}Adrianistán</title>
+        <link rel="stylesheet" href="/static/fonts.css" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Serif" rel="stylesheet">
+        <link rel="stylesheet" href="/static/main.css" type="text/css">
+        {% block css %}{% endblock css %}
+        {% block meta %}{% endblock meta %}
+    </head>
+    <body>
+        <div class="title">
+            <h1><a href="/">Adrianistán</a></h1>
+            <h2>El blog de Adrián Arroyo</h2>
+        </div>
+        <br>
+        <nav>
+            <a href="http://adrianistan.eu">Acerca de mí</a>
+            <a>Rust</a>
+            <a>Programación</a>
+            <a href="https://tergaxon.com">Tergaxon</a>
+            <a>Contacto</a>
+            <form class="search">
+                <input placeholder="Buscar..." type="search"><input id="search-button" value="&#x1F50D;" type="submit">
+            </form>
+        </nav>
+        <main>
+            <div id="center">   
+        {% block main %}
+
+        {% endblock main %}
+            </div>
+        </main>
+        <footer>
+        {% block footer %}
+        &copy; Adrián Arroyo Calle - 2012-2019
+        <br>
+        Contenido bajo licencia Creative-Commons 4.0 BY-NC-SA salvo que se indique lo contrario.
+        {% endblock footer %}
+        </footer>
+    </body>
+</html>

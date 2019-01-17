@@ -1,17 +1,18 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>Adrianistán</title>
-    </head>
-    <body>
-        <h1>Adrianistán</h1>
-        {% for post in posts %}
-            <section>
-                <a href="/{{ post.name }}"><h4>{{ post.title }}</h4></a>
-                <div class="excerpt">{{ post.excerpt }}</div>
-            </section>
-        {% endfor %}
-        <a href="/?date={{ last_date }}">Más entradas</a>
-    </body>
-</html>
+{% extends "base" %}
+
+{% block css %}
+<link rel="stylesheet" href="/static/index.css">
+{% endblock css %}
+
+{% block main %}
+    {% for post in posts %}
+        <section>
+            <a class="post-title" href="/{{ post.name }}"><h4>{{ post.title }}</h4></a>
+            <div class="excerpt">{{ post.excerpt | safe }}</div>
+            <a href="/{{ post.name }}">Seguir leyendo</a>
+        </section>
+    {% endfor %}
+    <div class="more">
+        <a href="/?date={{ last_date }}">&gt;&gt;&gt; Más entradas &gt;&gt;&gt; </a>
+    </div>
+{% endblock main %}

@@ -1,5 +1,4 @@
-use diesel::{Queryable,deserialize::QueryableByName,associations};
-use std::time::SystemTime;
+use chrono::prelude::*;
 use diesel::prelude::*;
 
 
@@ -15,12 +14,24 @@ pub struct Username {
 pub struct Post {
     pub id: i32,
     pub author: i32,
-    pub date: SystemTime,
+    pub date: NaiveDateTime,
     pub content: String,
     pub title: String,
     pub excerpt: String,
     pub status: String,
     pub comment_status: String,
     pub name: String,
-    pub modified: SystemTime,
+}
+
+#[derive(Queryable)]
+pub struct Comment {
+    pub id: i32,
+    pub date: NaiveDateTime,
+    pub content: String,
+    pub status: String,
+    pub post_id: i32,
+    pub author_name: String,
+    pub author_mail: Option<String>,
+    pub author_url: Option<String>,
+    pub author_useragent: Option<String>,
 }

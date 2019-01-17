@@ -1,14 +1,32 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>{{ title }}</title>
-        <link rel="canonical" href="https://blog.adrianistan.eu/{{ name }}">
-    </head>
-    <body>
-        <h1>{{ title }}</h1>
-        <article>
-        {{ content | safe }}
-        </article>
-    </body>
-</html>
+{% extends "base" %}
+{% block title %}{{ title }} - {% endblock title %}
+
+{% block css %}
+<link rel="stylesheet" href="/static/post.css">
+{% endblock css %}
+
+{% block meta %}
+<link rel="canonical" href="https://blog.adrianistan.eu/{{ name }}">
+{% endblock meta %}
+
+{% block main %}
+<article>
+<h1>{{ title }}</h1>
+<time>{{ date }}</time> - <span>{{ display_name }}</span>
+<br>
+<br>
+{{ content | safe }}
+</article>
+<div class="share"></div>
+<div class="comments">
+    {% for comment in comments %}
+        <div class="comment">
+            <img src="https://www.gravatar.com/avatar/{{ comment.email_hash }}?d=https://blog.adrianistan.eu/static/default.png&s=40" width="40" height="40">
+            <div>
+                <div class="name">{{ comment.author }}</div>
+                <div class="comment-content">{{ comment.content }}</div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock main %}
