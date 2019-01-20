@@ -80,14 +80,30 @@ pub fn post_view_new(_user: Username, conn: Database) -> Template {
     Template::render("admin_new",&m)
 }
 
+#[derive(Serialize)]
+struct PostEditTera{
+    pub post: Post,
+    pub tags: String,
+}
 
 #[get("/admin/post/<id>")]
 pub fn post_view(_user: Username, id: i32, conn: Database) -> Option<Template> {
     let post = post::table
                 .filter(post::id.eq(id))
                 .first::<Post>(&conn.0);
+    let tags = tag::table
+                .select((
+                    tag::name
+                ))
+                .filter(tag::post_id.eq(id))
+                .load::<String>(&conn.0)
+                .unwrap();
+
     if let Ok(post) = post {
-        return Some(Template::render("admin_edit",&post));
+        return Some(Template::render("admin_edit",PostEditTera{
+            post,
+            tags: tags.join(",")
+        }));
     }
     None
 }
@@ -99,6 +115,14 @@ pub struct EditPostForm {
     pub slug: String,
     pub content: String,
     pub status: String,
+    pub tags: String,
+}
+
+#[derive(Insertable)]
+#[table_name = "tag"]
+pub struct TagInsert {
+    pub name: String,
+    pub post_id: i32,
 }
 
 #[post("/admin/post", rank=1, data="<p>")]
@@ -121,6 +145,19 @@ pub fn post_edit(_user: Username, p: Form<EditPostForm>, conn: Database) -> Redi
             post::excerpt.eq(p.content.lines().next().unwrap_or(&p.content))
         ))
         .execute(&conn.0);
+    
+    diesel::delete(tag::table)
+        .filter(tag::post_id.eq(id))
+        .execute(&conn.0);
+    
+    for tag in p.tags.split(",") {
+        diesel::insert_into(tag::table)
+        .values(TagInsert{
+            name: tag.to_string(),
+            post_id: id
+        })
+        .execute(&conn.0);
+    }
     Redirect::to("/")
 }
 
@@ -130,6 +167,7 @@ pub struct NewPostForm {
     pub slug: String,
     pub content: String,
     pub status: String,
+    pub tags: String,
 }
 
 #[derive(Insertable)]
@@ -159,6 +197,21 @@ pub fn post_new(_user: Username, p: Form<NewPostForm>, conn: Database) -> Redire
             slug: p.slug.clone()
         })
         .execute(&conn.0);
+
+    let id = post::table
+        .select((post::id))
+        .filter(post::slug.eq(&p.slug))
+        .first::<i32>(&conn.0)
+        .unwrap();
+    
+    for tag in p.tags.split(",") {
+        diesel::insert_into(tag::table)
+        .values(TagInsert{
+            name: tag.to_string(),
+            post_id: id
+        })
+        .execute(&conn.0);
+    }
     Redirect::to("/")
 }
 

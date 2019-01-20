@@ -27,6 +27,7 @@ tinymce.init({
         <option selected value="draft">Draft</option>
     </select>
     <input type="text" name="slug" placeholder="Slug">
+    <input type="text" name="tags" placeholder="Tags">
     <br>
     <textarea id="editor" name="content"></textarea>
     <input type="submit" value="Guardar">

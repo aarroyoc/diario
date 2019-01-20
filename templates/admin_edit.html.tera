@@ -21,23 +21,24 @@ tinymce.init({
 </style>
 <h1>Editar artículo</h1>
 <form method="POST" action="/admin/post">
-    <input type="hidden" name="id" value="{{ id }}">
-    <input type="text" name="title" value="{{ title }}">
+    <input type="hidden" name="id" value="{{ post.id }}">
+    <input type="text" name="title" value="{{ post.title }}">
     <select name="status">
         <option 
-        {% if status == "published" %}
+        {% if post.status == "published" %}
         selected
         {% endif %}
         value="published">Published</option>
         <option 
-        {% if status == "draft" %}
+        {% if post.status == "draft" %}
         selected
         {% endif %}
         value="draft">Draft</option>
     </select>
-    <input type="text" name="slug" value="{{ slug }}">
+    <input type="text" name="slug" value="{{ post.slug }}">
+    <input type="text" name="tags" value="{{ tags }}">
     <br>
-    <textarea id="editor" name="content">{{ content | safe }}</textarea>
+    <textarea id="editor" name="content">{{ post.content | safe }}</textarea>
     <input type="submit" value="Guardar">
 </form>
 {% endblock main %}
