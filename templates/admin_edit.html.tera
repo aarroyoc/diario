@@ -1,0 +1,43 @@
+{% block main %}
+<script src="/static/tinymce/js/tinymce/tinymce.min.js"></script>
+<script src="/static/tinymce/js/tinymce/plugins/code/plugin.min.js"></script>
+<script src="/static/tinymce/js/tinymce/plugins/lists/plugin.min.js"></script>
+<script src="/static/tinymce/js/tinymce/plugins/table/plugin.min.js"></script>
+<script src="/static/tinymce/js/tinymce/plugins/link/plugin.min.js"></script>
+<script src="/static/tinymce/js/tinymce/plugins/image/plugin.min.js"></script>
+<script>
+tinymce.init({
+  selector: "#editor",  // change this value according to your HTML
+  plugins: "code lists table link image",
+  menubar: "tools numlist bullist table insert",
+  code_dialog_width: 300
+});
+
+</script>
+<style>
+#editor{
+    height: 700px;
+}
+</style>
+<h1>Editar artículo</h1>
+<form method="POST" action="/admin/post">
+    <input type="hidden" name="id" value="{{ id }}">
+    <input type="text" name="title" value="{{ title }}">
+    <select name="status">
+        <option 
+        {% if status == "published" %}
+        selected
+        {% endif %}
+        value="published">Published</option>
+        <option 
+        {% if status == "draft" %}
+        selected
+        {% endif %}
+        value="draft">Draft</option>
+    </select>
+    <input type="text" name="slug" value="{{ slug }}">
+    <br>
+    <textarea id="editor" name="content">{{ content | safe }}</textarea>
+    <input type="submit" value="Guardar">
+</form>
+{% endblock main %}

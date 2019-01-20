@@ -17,7 +17,7 @@ use rocket_contrib::templates::Template;
 pub struct Database(diesel::PgConnection);
 
 /* RUTAS
-Cronologico (paginado)
+Cronologico (paginado) - DONE
 Tag (paginado)
 Post
 Páginas
@@ -50,7 +50,17 @@ fn main() {
         controllers::index::index_date,
         controllers::post::post,
         controllers::post::post_date,
-        controllers::comment::post_comment
+        controllers::comment::post_comment,
+        controllers::admin::list_posts,
+        controllers::admin::login_get,
+        controllers::admin::login_post,
+        controllers::admin::post_view,
+        controllers::admin::post_new,
+        controllers::admin::post_edit,
+        controllers::admin::post_view_new,
+        controllers::admin::list_comments,
+        controllers::admin::comment_approve,
+        controllers::admin::comment_delete
     ])
     .mount("/static", StaticFiles::from("static"))
     .launch();

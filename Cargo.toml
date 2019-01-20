@@ -11,6 +11,8 @@ serde = "1.0.84"
 serde_derive = "1.0.84"
 chrono = { version = "0.4.6", features = ["serde"] }
 md5 = "0.6.1"
+ring = "0.13.5"
+data-encoding = "2.1.2"
 
 [dependencies.rocket_contrib]
 version = "0.4.0"

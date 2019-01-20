@@ -1,0 +1,12 @@
+{% block main %}
+<h1>Comentarios en moderación</h1>
+{% for comment in comments %}
+    <div>
+        <h4>{{ comment.author_name }}</h4>
+        <p>{{ comment.content }}</p>
+        <small>De {{ comment.title }}</small>
+        <small><a href="/admin/approve/{{ comment.id }}">Aprobar</a></small>
+        <small><a href="/admin/delete/{{ comment.id }}">Eliminar</a></small>
+    </div>
+{% endfor %}
+{% endblock main %}

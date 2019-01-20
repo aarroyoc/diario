@@ -1,0 +1,7 @@
+{% block main %}
+<form action="/login" method="POST">
+    <input type="email" required name="email" placeholder="Email">
+    <input type="password" required name="password" placeholder="Contraseña">
+    <input type="submit" value="Acceder">
+</form>
+{% endblock main %}

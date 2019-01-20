@@ -18,6 +18,7 @@
 {{ content | safe }}
 </article>
 <div class="share"></div>
+<div class="comment-panel">
 <div class="comments">
     {% for comment in comments %}
         <div class="comment">
@@ -50,5 +51,6 @@
     <input type="submit" value="Enviar comentario">
     <small>Todos los comentarios están sujetos a moderación</small>
 </form>
+</div>
 </div>
 {% endblock main %}

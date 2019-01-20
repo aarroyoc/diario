@@ -1,0 +1,10 @@
+{% block main %}
+<h1>Todos los artículos</h1>
+<a href="/admin/post/new">Nuevo artículo</a>
+<a href="/admin/comments">Comentarios</a>
+<ul>
+{% for post in posts %}
+    <li><a href="/admin/post/{{ post.id }}">{{ post.title }}</a></li>
+{% endfor %}
+</ul>
+{% endblock main %}

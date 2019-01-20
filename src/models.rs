@@ -21,7 +21,7 @@ pub struct Post {
     pub excerpt: String,
     pub status: String, /* draft, published */
     pub comment_status: String,
-    pub name: String,
+    pub slug: String,
 }
 
 #[derive(Queryable)]

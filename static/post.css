@@ -1,5 +1,4 @@
 .comment{
-    background-color: rgb(172, 179, 204);
     margin-bottom: 50px;
     display: flex;
     align-items: center;
@@ -29,4 +28,12 @@
 }
 .comment-form > textarea{
     height: 5em;
+}
+
+article, .comment-panel{
+    background-color: rgb(240, 255, 228);
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-top: 25px;
+    margin-bottom: 25px;
 }
