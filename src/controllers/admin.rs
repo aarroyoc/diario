@@ -162,7 +162,7 @@ pub fn post_edit(_user: Username, p: Form<EditPostForm>, conn: Database) -> Redi
             eprintln!("error adding tags: {:?}",err);
     }
     
-    for tag in p.tags.split(",") {
+    for tag in p.tags.split(',') {
 
         let res = diesel::insert_into(tag::table)
             .values(TagInsert{
@@ -225,7 +225,7 @@ pub fn post_new(_user: Username, p: Form<NewPostForm>, conn: Database) -> Redire
         .first::<i32>(&conn.0)
         .unwrap();
     
-    for tag in p.tags.split(",") {
+    for tag in p.tags.split(',') {
         let res = diesel::insert_into(tag::table)
             .values(TagInsert{
                 name: tag.to_string(),

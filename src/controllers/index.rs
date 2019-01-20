@@ -114,7 +114,7 @@ pub fn tag_date(tag: String, date: i64, conn: Database) -> Option<Template> {
                 .load::<ListingPost>(&conn.0);
 
     if let Ok(posts) = posts {
-        if posts.len() == 0 {
+        if posts.is_empty() {
             return None;
         }
         let last_date = posts[posts.len()-1].date.timestamp();

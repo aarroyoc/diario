@@ -82,7 +82,7 @@ pub fn post(slug: String, conn: Database) -> Option<Template>{
         if let Ok(comments) = comments {
             let mut comments_view = vec![];
             for comment in comments {
-                let author_mail = comment.author_mail.unwrap_or("NoExiste@YaYeYo.com".to_string());
+                let author_mail = comment.author_mail.unwrap_or_else(|| "NoExiste@YaYeYo.com".to_string());
                 let digest = md5::compute(author_mail);
                 comments_view.push(CommentViewTera{
                     author: comment.author_name,
@@ -99,7 +99,7 @@ pub fn post(slug: String, conn: Database) -> Option<Template>{
                 id: post.id,
                 date: post.date.format("%e/%m/%Y").to_string(),
                 comments: comments_view,
-                tags: tags
+                tags
             };
 
             return Some(Template::render("post",&post));
@@ -121,9 +121,9 @@ pub fn post_date(year: i32, month: u32, day: u32, slug: String, conn: Database) 
         .filter(post::slug.eq(&slug).and(post::date.eq(date)))
         .first::<crate::models::Post>(&conn.0);
     if post_x.is_ok() {
-        return post(slug,conn);
+        post(slug,conn)
     } else {
-        return None;
+        None
     }
 
     //let debug = diesel::debug_query::<diesel::pg::Pg, _>(&post);
