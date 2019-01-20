@@ -18,11 +18,12 @@ pub struct Database(diesel::PgConnection);
 
 /* RUTAS
 Cronologico (paginado) - DONE
-Tag (paginado)
-Post
+Tag (paginado) - DONE
+Post (actualizar formato)
 Páginas
 Contacto
 RSS
+Migrar imágenes
 Sitemap (Transformación RDF?)
 Robots.txt
 (RDFa, RDF/XML)
@@ -34,7 +35,7 @@ Robots.txt
 (SPARQL Endpoint? and individual RDF resources bajo demanda)
 (una vez al dia, se reconstruye la base de datos RDF global)
 (Comentarios, contacto, encuestas)
-Admin
+Admin - DONE
 (API MicroPub? Python?)
 (Analíticas)
 (Print version, PDF)
@@ -48,6 +49,8 @@ fn main() {
     .mount("/", routes![
         controllers::index::index,
         controllers::index::index_date,
+        controllers::index::tag,
+        controllers::index::tag_date,
         controllers::post::post,
         controllers::post::post_date,
         controllers::comment::post_comment,

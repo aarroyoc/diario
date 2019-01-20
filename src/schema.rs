@@ -35,7 +35,24 @@ table! {
     }
 }
 
+table! {
+    tag (name,post_id) {
+        name -> Text,
+        post_id -> Integer,
+    }
+}
+/*
+CREATE TABLE tag (
+    name TEXT,
+    post_id INTEGER,
+    PRIMARY KEY (name,post_id),
+    FOREIGN KEY (post_id) REFERENCES post
+)
+*/
+
 joinable!(post -> username (author));
 joinable!(comment -> post (post_id));
+joinable!(tag -> post (post_id));
 allow_tables_to_appear_in_same_query!(post, username);
 allow_tables_to_appear_in_same_query!(post, comment);
+allow_tables_to_appear_in_same_query!(post, tag);

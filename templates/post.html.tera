@@ -17,6 +17,12 @@
 <br>
 {{ content | safe }}
 </article>
+<div class="tags">
+<span>Tags: </span> 
+{% for tag in tags %}
+    <a href="/tag/{{ tag }}">{{ tag }}</a>
+{% endfor %}
+</div>
 <div class="share"></div>
 <div class="comment-panel">
 <div class="comments">

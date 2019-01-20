@@ -2,7 +2,7 @@ use rocket_contrib::templates::Template;
 use diesel::prelude::*;
 use chrono::prelude::*;
 use crate::Database;
-use crate::schema::{post,username,comment};
+use crate::schema::{post,username,comment,tag};
 use crate::models::Comment;
 
 
@@ -32,6 +32,7 @@ struct PostViewTera {
     pub name: String,
     pub id: i32,
     pub comments: Vec<CommentViewTera>,
+    pub tags: Vec<String>,
 }
 
 #[get("/<slug>")]
@@ -63,6 +64,15 @@ pub fn post(slug: String, conn: Database) -> Option<Template>{
         .inner_join(post::table)
         .filter(post::slug.eq(&slug).and(comment::status.eq("approved")))
         .load::<Comment>(&conn.0);
+
+    let tags = tag::table
+        .select((
+            tag::name
+        ))
+        .inner_join(post::table)
+        .filter(post::slug.eq(&slug))
+        .load::<String>(&conn.0)
+        .unwrap();
     
 
     if let Ok(post) = post {
@@ -86,6 +96,7 @@ pub fn post(slug: String, conn: Database) -> Option<Template>{
                 id: post.id,
                 date: post.date.format("%e/%m/%Y").to_string(),
                 comments: comments_view,
+                tags: tags
             };
 
             return Some(Template::render("post",&post));

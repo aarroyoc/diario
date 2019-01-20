@@ -5,6 +5,9 @@
 {% endblock css %}
 
 {% block main %}
+    {% if tag %}
+    <h2>Artículos con etiqueta &laquo;{{ tag }}&raquo;</h2>
+    {% endif %}
     {% for post in posts %}
         <section>
             <a class="post-title" href="/{{ post.name }}"><h4>{{ post.title }}</h4></a>
@@ -13,6 +16,10 @@
         </section>
     {% endfor %}
     <div class="more">
+        {% if tag %}
+        <a href="/tag/{{ tag }}?date={{ last_date }}">&gt;&gt;&gt; Más entradas &gt;&gt;&gt; </a>
+        {% else %}
         <a href="/?date={{ last_date }}">&gt;&gt;&gt; Más entradas &gt;&gt;&gt; </a>
+        {% endif %}
     </div>
 {% endblock main %}
