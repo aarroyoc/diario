@@ -1,3 +1,4 @@
+
 table! {
     post (id) {
         id -> Integer,

@@ -1,14 +1,17 @@
 use crate::Database;
-use std::collections::HashMap;
-use crate::models::{Username,Post,Comment};
+use crate::models::*;
 use crate::schema::*;
+
+use std::collections::HashMap;
+
 use rocket_contrib::templates::Template;
-use diesel::prelude::*;
 use rocket::request::*;
 use rocket::outcome::IntoOutcome;
-use ring::{digest, test};
 use rocket::http::{Cookie,Cookies};
-use rocket::response::Redirect;
+use rocket::response::*;
+
+use diesel::prelude::*;
+use ring::{digest};
 use data_encoding::HEXLOWER;
 use chrono::prelude::*;
 
@@ -52,7 +55,7 @@ pub fn login_post(mut cookies: Cookies, login: Form<LoginForm>, conn: Database) 
                 .filter(username::email.eq(&login.email).and(username::password.eq(&password)))
                 .first::<Username>(&conn.0);
 
-    if let Ok(res) = res {
+    if let Ok(_res) = res {
         cookies.add_private(Cookie::new("user_id", login.email.clone()));
         return Redirect::to("/admin/posts");
     }
@@ -60,7 +63,7 @@ pub fn login_post(mut cookies: Cookies, login: Form<LoginForm>, conn: Database) 
 }
 
 #[get("/admin/posts")]
-pub fn list_posts(user: Username, conn: Database) -> Template {
+pub fn list_posts(_user: Username, conn: Database) -> Template {
     let mut data = HashMap::new();
     let posts = post::table
                 .select((
@@ -75,7 +78,7 @@ pub fn list_posts(user: Username, conn: Database) -> Template {
 }
 
 #[get("/admin/post/new")]
-pub fn post_view_new(_user: Username, conn: Database) -> Template {
+pub fn post_view_new(_user: Username) -> Template {
     let m: HashMap<String,String> = HashMap::new();
     Template::render("admin_new",&m)
 }
@@ -92,9 +95,9 @@ pub fn post_view(_user: Username, id: i32, conn: Database) -> Option<Template> {
                 .filter(post::id.eq(id))
                 .first::<Post>(&conn.0);
     let tags = tag::table
-                .select((
+                .select(
                     tag::name
-                ))
+                )
                 .filter(tag::post_id.eq(id))
                 .load::<String>(&conn.0)
                 .unwrap();
@@ -128,14 +131,17 @@ pub struct TagInsert {
 #[post("/admin/post", rank=1, data="<p>")]
 pub fn post_edit(_user: Username, p: Form<EditPostForm>, conn: Database) -> Redirect {
     let id = p.id.parse::<i32>().unwrap();
-    diesel::update(post::table)
+    let res = diesel::update(post::table)
         .filter(post::id.eq(id).and(post::status.eq("draft")))
-        .set((
+        .set(
             post::date.eq(Utc::now().naive_local())
-        ))
+        )
         .execute(&conn.0);
+    if let Err(err) = res {
+        eprintln!("error adding tags: {:?}",err);
+    }
 
-    diesel::update(post::table)
+    let res = diesel::update(post::table)
         .filter(post::id.eq(id))
         .set((
             post::title.eq(&p.title),
@@ -145,18 +151,29 @@ pub fn post_edit(_user: Username, p: Form<EditPostForm>, conn: Database) -> Redi
             post::excerpt.eq(p.content.lines().next().unwrap_or(&p.content))
         ))
         .execute(&conn.0);
+    if let Err(err) = res {
+        eprintln!("error adding tags: {:?}",err);
+    }
     
-    diesel::delete(tag::table)
+    let res = diesel::delete(tag::table)
         .filter(tag::post_id.eq(id))
         .execute(&conn.0);
+    if let Err(err) = res {
+            eprintln!("error adding tags: {:?}",err);
+    }
     
     for tag in p.tags.split(",") {
-        diesel::insert_into(tag::table)
-        .values(TagInsert{
-            name: tag.to_string(),
-            post_id: id
-        })
-        .execute(&conn.0);
+
+        let res = diesel::insert_into(tag::table)
+            .values(TagInsert{
+                name: tag.to_string(),
+                post_id: id
+            })
+            .execute(&conn.0);
+
+        if let Err(err) = res {
+            eprintln!("error adding tags: {:?}",err);
+        }
     }
     Redirect::to("/")
 }
@@ -185,7 +202,7 @@ pub struct NewPost {
 
 #[post("/admin/post/new", data="<p>")]
 pub fn post_new(_user: Username, p: Form<NewPostForm>, conn: Database) -> Redirect {
-    diesel::insert_into(post::table)
+    let res = diesel::insert_into(post::table)
         .values(NewPost{
             author: 1,
             date: Utc::now().naive_local(),
@@ -198,19 +215,26 @@ pub fn post_new(_user: Username, p: Form<NewPostForm>, conn: Database) -> Redire
         })
         .execute(&conn.0);
 
+    if let Err(err) = res {
+        eprintln!("error creating post: {:?}",err);
+    }
+
     let id = post::table
-        .select((post::id))
+        .select(post::id)
         .filter(post::slug.eq(&p.slug))
         .first::<i32>(&conn.0)
         .unwrap();
     
     for tag in p.tags.split(",") {
-        diesel::insert_into(tag::table)
-        .values(TagInsert{
-            name: tag.to_string(),
-            post_id: id
-        })
-        .execute(&conn.0);
+        let res = diesel::insert_into(tag::table)
+            .values(TagInsert{
+                name: tag.to_string(),
+                post_id: id
+            })
+            .execute(&conn.0);
+        if let Err(err) = res {
+            eprintln!("error adding tags: {:?}",err);
+        }
     }
     Redirect::to("/")
 }
@@ -248,19 +272,26 @@ pub fn list_comments(_user: Username, conn: Database) -> Option<Template> {
 
 #[get("/admin/delete/<id>")]
 pub fn comment_delete(_user: Username, id: i32, conn: Database) -> Redirect {
-    diesel::delete(comment::table)
+    let res = diesel::delete(comment::table)
         .filter(comment::id.eq(id))
         .execute(&conn.0);
+    
+    if let Err(err) = res {
+        eprintln!("error deleting comment: {:?}",err);
+    }
     Redirect::to("/admin/comments")
 }
 
 #[get("/admin/approve/<id>")]
 pub fn comment_approve(_user: Username, id: i32, conn: Database) -> Redirect{
-    diesel::update(comment::table)
+    let res = diesel::update(comment::table)
         .filter(comment::id.eq(id))
-        .set((
+        .set(
             comment::status.eq("approved")
-        ))
+        )
         .execute(&conn.0);
+    if let Err(err) = res {
+        eprintln!("error approving comment: {:?}",err);
+    }
     Redirect::to("/admin/comments")
 }

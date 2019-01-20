@@ -45,6 +45,10 @@ pub fn post_comment(comment: Form<CommentForm>,conn: Database) -> Redirect {
             author_useragent: None,
         })
         .execute(&conn.0);
+    
+    if let Err(err) = res {
+        eprintln!("error adding tags: {:?}",err);
+    }
 
     Redirect::to(format!("/{}",comment.slug))
 }

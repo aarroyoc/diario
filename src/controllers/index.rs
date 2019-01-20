@@ -1,12 +1,11 @@
-use rocket_contrib::templates::Template;
-use std::collections::HashMap;
-use diesel::sql_query;
-use diesel::RunQueryDsl;
-use diesel::prelude::*;
-use std::time::SystemTime;
-use chrono::prelude::*;
 use crate::Database;
-use crate::schema::{post,username,tag};
+use crate::schema::*;
+
+use rocket_contrib::templates::Template;
+
+use diesel::prelude::*;
+use chrono::prelude::*;
+
 
 /*#[derive(Queryable)]
 struct PostAuthor {

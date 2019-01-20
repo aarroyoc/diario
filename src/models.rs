@@ -1,7 +1,4 @@
 use chrono::prelude::*;
-use diesel::prelude::*;
-
-use crate::schema::*;
 
 #[derive(Queryable)]
 pub struct Username {
