@@ -31,7 +31,7 @@ Robots.txt
 (Creative Commons)
 (Generar BibTeX)
 (ActivityPub feed)
-(resaltado sintaxis)
+(resaltado sintaxis) - DONE
 (SPARQL Endpoint? and individual RDF resources bajo demanda)
 (una vez al dia, se reconstruye la base de datos RDF global)
 (Comentarios, contacto, encuestas)

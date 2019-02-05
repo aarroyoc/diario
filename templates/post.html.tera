@@ -3,6 +3,14 @@
 
 {% block css %}
 <link rel="stylesheet" href="/static/post.css">
+<link rel="stylesheet" href="/static/prism/prism.css">
+<script src="/static/prism/prism.min.js" async defer></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)'],['[latex]','[/latex]']]}
+});
+</script>
+<script type="text/javascript" async src="/static/MathJax-2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 {% endblock css %}
 
 {% block meta %}

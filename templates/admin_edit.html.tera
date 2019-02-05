@@ -10,7 +10,7 @@ tinymce.init({
   selector: "#editor",  // change this value according to your HTML
   plugins: "code lists table link image",
   menubar: "tools numlist bullist table insert",
-  code_dialog_width: 300
+  code_dialog_width: 800
 });
 
 </script>
