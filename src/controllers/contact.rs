@@ -4,6 +4,8 @@ use rocket::response::Redirect;
 use std::process::{Command,Stdio};
 use std::io::Write;
 use rocket::request::Form;
+use rocket::State;
+use crate::GmailPassword;
 
 #[get("/contacto")]
 pub fn get_contact() -> Template {
@@ -19,11 +21,12 @@ pub struct ContactForm {
 }
 
 #[post("/contacto",data="<contact>")]
-pub fn post_contact(contact: Form<ContactForm>) -> Redirect{
+pub fn post_contact(contact: Form<ContactForm>, gmail_password: State<GmailPassword> ) -> Redirect{
     let mut cmd = Command::new("python3")
         .arg("scripts/send_email.py")
         .arg(&contact.title)
         .arg(&contact.email)
+        .arg(&gmail_password.0)
         .stdin(Stdio::piped())
         .spawn()
         .expect("Failed to send mail");

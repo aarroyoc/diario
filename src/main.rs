@@ -12,9 +12,12 @@ pub mod schema;
 
 use rocket_contrib::serve::StaticFiles;
 use rocket_contrib::templates::Template;
+use rocket::fairing::AdHoc;
 
 #[database("postgres_db")]
 pub struct Database(diesel::PgConnection);
+
+pub struct GmailPassword(String);
 
 /* RUTAS
 Cronologico (paginado) - DONE
@@ -72,5 +75,9 @@ fn main() {
     ])
     .mount("/static", StaticFiles::from("static"))
     .mount("/wp-content", StaticFiles::from("wp-content"))
+    .attach(AdHoc::on_attach("GmailPassword",|rocket| {
+            let gmail_password = rocket.config().get_str("gmail_password").unwrap().to_string();
+            Ok(rocket.manage(GmailPassword(gmail_password)))
+    }))
     .launch();
 }
