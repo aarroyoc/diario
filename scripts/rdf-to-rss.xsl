@@ -12,7 +12,7 @@
             <link><xsl:value-of select="schema:Blog/schema:url"/></link>
             <description><xsl:value-of select="schema:Blog/schema:description"/></description>
             <xsl:for-each select="schema:BlogPost">
-                <xsl:sort select="schema:dateCreated"/>
+                <xsl:sort select="schema:dateCreated" order="descending"/>
                 <item>
                     <title><xsl:value-of select="schema:name"/></title>
                     <link><xsl:value-of select="@rdf:about"/></link>

@@ -9,6 +9,7 @@
 mod controllers;
 pub mod models;
 pub mod schema;
+mod export;
 
 use rocket_contrib::serve::StaticFiles;
 use rocket_contrib::templates::Template;
@@ -36,7 +37,7 @@ Robots.txt
 (ActivityPub feed)
 (resaltado sintaxis) - DONE
 (SPARQL Endpoint? and individual RDF resources bajo demanda)
-(una vez al dia, se reconstruye la base de datos RDF global)
+(una vez al dia, se reconstruye la base de datos RDF global) - DONE
 (Comentarios, contacto, encuestas)
 Admin - DONE
 (API MicroPub? Python?)
@@ -46,7 +47,25 @@ Cookie: cZSiY8L2Tlpi9p+XEeAZ6f8uAIsJD5V3yXAuHGjojkk=
 */
 
 fn main() {
-    rocket::ignite()
+
+    let r = rocket::ignite();
+    let mut postgres = String::new();
+    {
+        let url = r.config().get_table("databases").unwrap().get("postgres_db").unwrap().get("url").unwrap();
+        postgres.push_str(url.as_str().unwrap());
+    }
+
+    std::thread::spawn(move || {
+        loop{
+            export::export(&postgres);
+            println!("Finished Exporting");
+            std::thread::sleep(std::time::Duration::from_secs(60*60*24));
+        }
+    });
+    
+
+   
+    r
     .attach(Template::fairing())
     .attach(Database::fairing())
     .mount("/", routes![
