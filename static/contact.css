@@ -1,0 +1,15 @@
+.form-center{
+    display: flex;
+    justify-content: center;
+}
+form{
+    max-width: 400px;
+}
+#grid{
+    display: grid;
+    grid-template-columns: auto 1fr;
+}
+textarea{
+    width: 400px;
+    height: 200px;
+}

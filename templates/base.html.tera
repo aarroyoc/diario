@@ -5,6 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{% block title %}{% endblock title %}Adrianistán</title>
         <link rel="stylesheet" href="/static/fonts.css" type="text/css">
+        <link rel="sitemap" href="/sitemap.xml" />
+        <link rel="alternate" type="application/rss+xml" href="https://blog.adrianistan.eu/rss.xml" />
         <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Serif" rel="stylesheet">
         <link rel="stylesheet" href="/static/main.css" type="text/css">
         {% block css %}{% endblock css %}
@@ -18,12 +20,14 @@
         <br>
         <nav>
             <a href="http://adrianistan.eu">Acerca de mí</a>
-            <a>Rust</a>
+            <a href="/rust-101-tutorial-rust-espanol">Rust</a>
             <a href="/tag/programacion">Programación</a>
             <a href="https://tergaxon.com">Tergaxon</a>
-            <a>Contacto</a>
-            <form class="search">
-                <input placeholder="Buscar..." type="search"><input id="search-button" value="&#x1F50D;" type="submit">
+            <a href="/contacto">Contacto</a>
+            <form class="search" action="https://cse.google.com/cse" method="GET">
+                <input type="hidden" name="cx" value="partner-pub-6944504853839360:9486428818">
+                <input name="ie" type="hidden" value="UTF-8">
+                <input placeholder="Buscar..." type="search" name="q"><input id="search-button" value="&#x1F50D;" type="submit">
             </form>
         </nav>
         <main>

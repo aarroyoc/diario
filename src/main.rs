@@ -19,12 +19,12 @@ pub struct Database(diesel::PgConnection);
 /* RUTAS
 Cronologico (paginado) - DONE
 Tag (paginado) - DONE
-Post (actualizar formato)
-Páginas
-Contacto
-RSS
+Post (actualizar formato) - DONE
+Páginas - DONE
+Contacto - DONE
+RSS - DONE
 Migrar imágenes
-Sitemap (Transformación RDF?)
+Sitemap (Transformación RDF?) - DONE
 Robots.txt
 (RDFa, RDF/XML)
 (OpenSearch)
@@ -54,6 +54,8 @@ fn main() {
         controllers::post::post,
         controllers::post::post_date,
         controllers::comment::post_comment,
+        controllers::contact::get_contact,
+        controllers::contact::post_contact,
         controllers::admin::list_posts,
         controllers::admin::login_get,
         controllers::admin::login_post,
@@ -63,7 +65,10 @@ fn main() {
         controllers::admin::post_view_new,
         controllers::admin::list_comments,
         controllers::admin::comment_approve,
-        controllers::admin::comment_delete
+        controllers::admin::comment_delete,
+        controllers::feed::feed,
+        controllers::feed::feed_rss_xml,
+        controllers::feed::sitemap,
     ])
     .mount("/static", StaticFiles::from("static"))
     .mount("/wp-content", StaticFiles::from("wp-content"))

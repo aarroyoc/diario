@@ -1,0 +1,34 @@
+use std::collections::HashMap;
+use rocket_contrib::templates::Template;
+use rocket::response::Redirect;
+use std::process::{Command,Stdio};
+use std::io::Write;
+use rocket::request::Form;
+
+#[get("/contacto")]
+pub fn get_contact() -> Template {
+    let m: HashMap<i32,i32> = HashMap::new();
+    Template::render("contact",&m)
+}
+
+#[derive(FromForm)]
+pub struct ContactForm {
+    email: String,
+    title: String,
+    content: String,
+}
+
+#[post("/contacto",data="<contact>")]
+pub fn post_contact(contact: Form<ContactForm>) -> Redirect{
+    let mut cmd = Command::new("python3")
+        .arg("scripts/send_email.py")
+        .arg(&contact.title)
+        .arg(&contact.email)
+        .stdin(Stdio::piped())
+        .spawn()
+        .expect("Failed to send mail");
+    let mut stdin = cmd.stdin.as_mut().expect("Failed to open stdin");
+    stdin.write_all(contact.content.as_bytes()).expect("Failed to write to stdin");
+
+    Redirect::to("/")
+}

@@ -1,0 +1,23 @@
+{% extends "base" %}
+{% block title %}Contacto - {% endblock title %}
+
+{% block css %}
+<link rel="stylesheet" href="/static/contact.css">
+{% endblock css %}
+
+{% block main %}
+<h3>Contacto</h3>
+<p>Usa este formulario para ponerte en contacto conmigo. Indica tu correo para que pueda responderte</p>
+<div class="form-center">
+    <form action="/contacto" method="POST">
+        <div id="grid">
+            <label>Email: </label><input type="email" name="email" required>
+            <label>Asunto: </label><input type="text" name="title" required>
+        </div>
+        <textarea name="content"></textarea>
+        <div class="form-center">
+            <input type="submit" value="Enviar mensaje">
+        </div>
+    </form>
+</div>
+{% endblock main %}
