@@ -2,8 +2,7 @@
 use diesel::prelude::*;
 use diesel::pg::PgConnection;
 
-use crate::schema::{post,username,comment,tag};
-use crate::models::Comment;
+use crate::schema::{post,comment};
 
 use std::fs::*;
 use std::io::Write;
@@ -34,9 +33,9 @@ pub fn export(database_url: &str) {
         <schema:copyrightHolder rdf:resource='#AdrianArroyo'/>"#);
         // LISTADO POSTS
     let post_urls = post::table
-        .select((
+        .select(
             post::slug
-        ))
+        )
         .filter(post::status.eq("published"))
         .load::<String>(&conn)
         .unwrap();
@@ -64,9 +63,9 @@ pub fn export(database_url: &str) {
             <schema:dateCreated rdf:datatype="http://schema.org/DateTime">{}</schema:dateCreated>
         "#,post.slug,post.title,post.content,post.date));
         let comment_ids = comment::table
-            .select((
+            .select(
                 comment::id
-            ))
+            )
             .filter(comment::post_id.eq(post.id).and(comment::status.eq("approved")))
             .load::<i32>(&conn)
             .unwrap();
@@ -108,7 +107,7 @@ pub fn export(database_url: &str) {
     file.write_all(rdf.as_bytes()).unwrap();
 
     // LLAMAR SCRIPTS
-    let rss = Command::new("xsltproc")
+    let _rss = Command::new("xsltproc")
         .arg("-o")
         .arg("static/rss.xml")
         .arg("scripts/rdf-to-rss.xsl")
@@ -116,7 +115,7 @@ pub fn export(database_url: &str) {
         .spawn()
         .expect("Failed to create RSS");
     
-    let sitemap = Command::new("xsltproc")
+    let _sitemap = Command::new("xsltproc")
         .arg("-o")
         .arg("static/sitemap.xml")
         .arg("scripts/rdf-to-sitemap.xsl")

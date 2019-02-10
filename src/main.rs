@@ -42,8 +42,10 @@ Robots.txt
 Admin - DONE
 (API MicroPub? Python?)
 (Analíticas)
+(AdSense)
 (Print version, PDF)
 Cookie: cZSiY8L2Tlpi9p+XEeAZ6f8uAIsJD5V3yXAuHGjojkk=
+DOCUMENTAR TODO
 */
 
 fn main() {
