@@ -15,3 +15,8 @@ pub fn feed_rss_xml() -> Option<NamedFile> {
 pub fn sitemap() -> Option<NamedFile> {
     NamedFile::open("static/sitemap.xml").ok()
 }
+
+#[get("/category/programacion/feed")]
+pub fn programacion_rss() -> Option<NamedFile> {
+    NamedFile::open("static/programacion.rss.xml").ok()
+}

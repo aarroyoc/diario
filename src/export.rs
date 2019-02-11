@@ -2,7 +2,7 @@
 use diesel::prelude::*;
 use diesel::pg::PgConnection;
 
-use crate::schema::{post,comment};
+use crate::schema::{post,comment,tag};
 
 use std::fs::*;
 use std::io::Write;
@@ -70,7 +70,17 @@ pub fn export(database_url: &str) {
             .load::<i32>(&conn)
             .unwrap();
         for comment_id in comment_ids {
-            rdf.push_str(&format!("<schema:comment rdf:resource='#comment{}' />",comment_id));
+            rdf.push_str(&format!("\n<schema:comment rdf:resource='#comment{}' />",comment_id));
+        }
+        let tags = tag::table
+            .select(
+                tag::name
+            )
+            .filter(tag::post_id.eq(post.id))
+            .load::<String>(&conn)
+            .unwrap();
+        for tag in tags {
+            rdf.push_str(&format!("\n<schema:keywords>{}</schema:keywords>",tag))
         }
         rdf.push_str("\n</schema:BlogPost>");
     }
@@ -122,5 +132,13 @@ pub fn export(database_url: &str) {
         .arg("blog.rdf")
         .spawn()
         .expect("Failed to create Sitemap");
+
+    let _programacion = Command::new("xsltproc")
+        .arg("-o")
+        .arg("static/programacion.rss.xml")
+        .arg("scripts/rdf-to-programacion-rss.xsl")
+        .arg("blog.rdf")
+        .spawn()
+        .expect("Failed to create Programacion RSS");
 
 }

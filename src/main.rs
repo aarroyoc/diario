@@ -31,9 +31,11 @@ Migrar imágenes - DONE
 Sitemap (Transformación RDF?) - DONE
 Robots.txt
 Sistema Backups
-Miniaturas Telegram, Facebook, Twitter
-Favicon
-RSS Programación (MailChimp)
+Miniaturas Telegram, Facebook, Twitter - DONE
+Favicon - DONE
+RSS Programación (MailChimp) - DONE
+Suscribirse FEED, MailChimp, Telegram
+Compartir redes sociales
 Subir imágenes
 (RDFa, RDF/XML)
 (OpenSearch)
@@ -98,6 +100,7 @@ fn main() {
         controllers::feed::feed,
         controllers::feed::feed_rss_xml,
         controllers::feed::sitemap,
+        controllers::feed::programacion_rss,
     ])
     .mount("/static", StaticFiles::from("static"))
     .mount("/wp-content", StaticFiles::from("wp-content"))
