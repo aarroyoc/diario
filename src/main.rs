@@ -27,9 +27,14 @@ Post (actualizar formato) - DONE
 Páginas - DONE
 Contacto - DONE
 RSS - DONE
-Migrar imágenes
+Migrar imágenes - DONE
 Sitemap (Transformación RDF?) - DONE
 Robots.txt
+Sistema Backups
+Miniaturas Telegram, Facebook, Twitter
+Favicon
+RSS Programación (MailChimp)
+Subir imágenes
 (RDFa, RDF/XML)
 (OpenSearch)
 (Creative Commons)

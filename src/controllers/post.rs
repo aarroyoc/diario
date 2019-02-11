@@ -7,14 +7,13 @@ use rocket_contrib::templates::Template;
 use diesel::prelude::*;
 use chrono::prelude::*;
 
-
-
 #[derive(Queryable)]
 struct PostViewDB {
     pub display_name: String,
     pub id: i32,
     pub content: String,
     pub title: String,
+    pub excerpt: String,
     pub date: NaiveDateTime,
 }
 
@@ -33,6 +32,7 @@ struct PostViewTera {
     pub title: String,
     pub date: String,
     pub name: String,
+    pub excerpt: String,
     pub id: i32,
     pub comments: Vec<CommentViewTera>,
     pub tags: Vec<String>,
@@ -47,6 +47,7 @@ pub fn post(slug: String, conn: Database) -> Option<Template>{
             post::id,
             post::content,
             post::title,
+            post::excerpt,
             post::date
         ))
         .filter(post::slug.eq(&slug))
@@ -97,6 +98,7 @@ pub fn post(slug: String, conn: Database) -> Option<Template>{
                 title: post.title,
                 name: slug,
                 id: post.id,
+                excerpt: post.excerpt,
                 date: post.date.format("%e/%m/%Y").to_string(),
                 comments: comments_view,
                 tags

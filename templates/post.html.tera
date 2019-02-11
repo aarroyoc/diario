@@ -15,6 +15,12 @@ MathJax.Hub.Config({
 
 {% block meta %}
 <link rel="canonical" href="https://blog.adrianistan.eu/{{ name }}">
+<meta property="og:url" content="https://blog.adrianistan.eu/{{ name }}">
+<meta property="og:type" content="article">
+<meta property="og:title" content="{{ title }}>
+<meta property="og:description" content="{{ excerpt }}">
+<meta property="og:image" content="">
+<meta name="description" content="{{ excerpt }}">
 {% endblock meta %}
 
 {% block main %}
