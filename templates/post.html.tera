@@ -19,7 +19,7 @@ MathJax.Hub.Config({
 <meta property="og:type" content="article">
 <meta property="og:title" content="{{ title }}">
 <meta property="og:description" content="{{ excerpt | striptags }}">
-<meta property="og:image" content="">
+<meta property="og:image" content="{{ img }}">
 <meta name="description" content="{{ excerpt | striptags }}">
 {% endblock meta %}
 

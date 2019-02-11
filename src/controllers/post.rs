@@ -7,6 +7,8 @@ use rocket_contrib::templates::Template;
 use diesel::prelude::*;
 use chrono::prelude::*;
 
+use regex::Regex;
+
 #[derive(Queryable)]
 struct PostViewDB {
     pub display_name: String,
@@ -33,6 +35,7 @@ struct PostViewTera {
     pub date: String,
     pub name: String,
     pub excerpt: String,
+    pub img: String,
     pub id: i32,
     pub comments: Vec<CommentViewTera>,
     pub tags: Vec<String>,
@@ -92,12 +95,26 @@ pub fn post(slug: String, conn: Database) -> Option<Template>{
                     email_hash: format!("{:x}", digest)
                 });
             }
+
+            /* Find first image in post */
+            let regex = Regex::new(r#"(https://blog.adrianistan.eu/[^>]*.(png|jpeg|jpg|webp|gif))"#).unwrap();
+            let captures = regex.captures(&post.content);
+            let mut img = captures.and_then(|c|{
+                c.get(1)
+            })
+            .and_then(|c|{
+                Some(c.as_str())
+            })
+            .unwrap_or("");
+            let img = img.to_string();
+
             let post = PostViewTera{
                 display_name: post.display_name,
                 content: post.content,
                 title: post.title,
                 name: slug,
                 id: post.id,
+                img: img,
                 excerpt: post.excerpt,
                 date: post.date.format("%e/%m/%Y").to_string(),
                 comments: comments_view,
