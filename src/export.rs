@@ -8,6 +8,8 @@ use std::fs::*;
 use std::io::Write;
 use std::process::Command;
 
+use chrono::prelude::*;
+
 // Thread aparte
 // Obtener configuración de Rocket.toml
 
@@ -18,7 +20,8 @@ pub fn export(database_url: &str) {
     // GENERICO RDF
     let mut rdf = String::new();
     rdf.push_str(r#"<?xml version="1.0" encoding="utf-8" ?>
-    <rdf:RDF 
+    <rdf:RDF
+    xmlns:extra="http://adrianistan.eu/" 
     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
     xmlns:schema="http://schema.org/">
 
@@ -55,13 +58,15 @@ pub fn export(database_url: &str) {
         .load::<crate::models::Post>(&conn)
         .unwrap();
     for post in posts {
+        let date: DateTime<FixedOffset> = DateTime::from_utc(post.date,FixedOffset::west_opt(0).unwrap());
         rdf.push_str(&format!(r#"
         <schema:BlogPost rdf:about='https://blog.adrianistan.eu/{}'>
             <schema:name>{}</schema:name>
             <schema:articleBody><![CDATA[{}]]></schema:articleBody>
             <schema:author rdf:resource='#AdrianArroyo'/>
             <schema:dateCreated rdf:datatype="http://schema.org/DateTime">{}</schema:dateCreated>
-        "#,post.slug,post.title,post.content,post.date));
+            <extra:dateRFC822>{}</extra:dateRFC822>
+        "#,post.slug,post.title,post.content,post.date,date.to_rfc2822()));
         let comment_ids = comment::table
             .select(
                 comment::id
