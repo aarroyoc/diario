@@ -49,7 +49,7 @@ Subir imágenes
 Admin - DONE
 (API MicroPub? Python?)
 (Analíticas)
-(AdSense)
+(AdSense) - DONE
 (Print version, PDF)
 Cookie: cZSiY8L2Tlpi9p+XEeAZ6f8uAIsJD5V3yXAuHGjojkk=
 DOCUMENTAR TODO
@@ -101,6 +101,7 @@ fn main() {
         controllers::feed::feed_rss_xml,
         controllers::feed::sitemap,
         controllers::feed::programacion_rss,
+        controllers::api::api,
     ])
     .mount("/static", StaticFiles::from("static"))
     .mount("/wp-content", StaticFiles::from("wp-content"))

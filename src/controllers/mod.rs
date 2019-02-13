@@ -4,3 +4,4 @@ pub mod comment;
 pub mod admin;
 pub mod contact;
 pub mod feed;
+pub mod api;
