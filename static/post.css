@@ -41,7 +41,3 @@ article, .comment-panel, .tags{
 .tags > span{
     font-weight: bold;
 }
-
-img{
-    max-width: 100%;
-}
