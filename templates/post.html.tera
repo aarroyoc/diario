@@ -37,7 +37,38 @@ MathJax.Hub.Config({
     <a href="/tag/{{ tag }}">{{ tag }}</a>
 {% endfor %}
 </div>
-<div class="share"></div>
+<div class="share">
+    Compartir artículo en: 
+    <a href="https://twitter.com/intent/tweet?text={{ title }}&url=https://blog.adrianistan.eu/{{ name }}&via=aarroyoca">Twitter</a> / 
+    <a href="https://www.facebook.com/sharer/sharer.php?u=https://blog.adrianistan.eu/{{ name }}&t={{ title }}">Facebook</a> / 
+    <a href="https://telegram.me/share/url?url=https://blog.adrianistan.eu/{{ name }}&text={{ title }}">Telegram</a> /
+    <a href="https://reddit.com/submit?url=https://blog.adrianistan.eu/{{ name}}&title={{title}}">Reddit</a> /
+    <a href="https://wa.me/?text=https://blog.adrianistan.eu/{{ name }}">WhatsApp</a> /
+    <a href="https://gnusocial.cc/notice/new?status_textarea={{ title }} https://blog.adrianistan.eu/{{ name }}">GNU Social</a> /
+    <a href="mailto:?subject={{title}}&body=https://blog.adrianistan.eu/{{ name }}">Correo electrónico</a> / 
+    <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://blog.adrianistan.eu/{{name}}&title={{title}}">LinkedIn</a> / 
+    <a href="http://www.meneame.net/submit.php?url=https://blog.adrianistan.eu/{{ name }}">Menéame</a> /
+    <a href="https://getpocket.com/edit?url=https://blog.adrianistan.eu/{{name}}">Pocket</a>
+</div>
+<div class="share">
+    <h5>¡No te pierdas ningún artículo nuevo!</h5>
+    <ul>
+        <li>Suscríbete vía RSS (<a href="/feed">completo</a> o <a href="/category/programacion/feed">solo programación</a>)</li>
+        <li><a href="http://eepurl.com/b6NLlL">Suscríbete a la lista de correo</a></li>
+        <li>Sigue el blog en <a href="https://www.facebook.com/Blog-Adrianist%C3%A1n-211912669250354/">Facebook</a>, <a href="https://twitter.com/aarroyoca">Twitter</a>, <a href="https://gnusocial.cc/aarroyoc/">GNU Social</a></li>
+        <li><a href="http://t.me/adrianistan">Suscríbete al canal de Telegram</a></li>
+    </ul>
+</div>
+<div class="share">
+    <h5>¿Te ha resultado útil? ¡Invítame a un torrezno!</h5>
+    <ul>
+        <li>Envíame unos eurillos por <a href="https://www.paypal.me/aarroyoc">PayPal</a></li>
+        <li><a href="https://www.amazon.es?&_encoding=UTF8&tag=adrarrcal-21&linkCode=ur2&linkId=4c28d921ca222ecb47709b20e0211b1f&camp=3638&creative=24630">Compra en Amazon con este enlace</a></li>
+        <li>Créate una cuenta en <a href="https://n26.com/r/adriana4544">N26</a> o <a href="https://share.bnext.es/310542418">BNext</a></li>   
+        <li>Conviértete en mecenas en <a href="https://liberapay.com/aarroyoc/donate">LiberaPay</a></li>
+        <li>O envíame unos bitcoines a <a href="bitcoin:1NjsXtVx47gFRTTZ6AfFMitoK9x1oB8WFm">1NjsXtVx47gFRTTZ6AfFMitoK9x1oB8WFm</a></li>
+    </ul>
+</div>
 <div class="comment-panel">
 <div class="comments">
     {% for comment in comments %}

@@ -59,6 +59,8 @@
         &copy; Adrián Arroyo Calle - 2012-2019
         <br>
         Contenido bajo licencia Creative-Commons 4.0 BY-NC-SA salvo que se indique lo contrario.
+        <br>
+        Este blog funciona gracias a <a href="https://github.com/aarroyoc/diario">Diario</a>, un sistema de blogging programado en Rust
         {% endblock footer %}
         </footer>
     </body>

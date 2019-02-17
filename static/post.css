@@ -30,7 +30,7 @@
     height: 5em;
 }
 
-article, .comment-panel, .tags{
+article, .comment-panel, .tags, .share{
     background-color: rgb(240, 255, 228);
     padding-left: 10px;
     padding-right: 10px;
@@ -47,4 +47,15 @@ article, .comment-panel, .tags{
 }
 #captcha{
     align-items: center;
+}
+
+.share > h5{
+    text-decoration: underline;
+}
+
+.share > ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
 }
