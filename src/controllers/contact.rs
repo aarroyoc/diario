@@ -22,6 +22,11 @@ pub struct ContactForm {
 
 #[post("/contacto",data="<contact>")]
 pub fn post_contact(contact: Form<ContactForm>, gmail_password: State<GmailPassword> ) -> Redirect{
+    /* Me he dado cuenta que la mayoría de spam bots no rellenan el campo title */
+    if contact.title.is_empty() {
+        return Redirect::to("/");
+    }
+
     let mut cmd = Command::new("python3")
         .arg("scripts/send_email.py")
         .arg(&contact.title)

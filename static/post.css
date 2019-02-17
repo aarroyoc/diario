@@ -41,3 +41,10 @@ article, .comment-panel, .tags{
 .tags > span{
     font-weight: bold;
 }
+
+#captcha > input[type="number"] {
+    height: 1em;
+}
+#captcha{
+    align-items: center;
+}

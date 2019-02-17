@@ -15,6 +15,8 @@ pub struct CommentForm {
     slug: String,
     content: String,
     post_id: String,
+    captcha_user: u8,
+    captcha_n: u8,
 }
 
 #[derive(Insertable)]
@@ -32,6 +34,10 @@ pub struct CommentInsert {
 
 #[post("/comment",data="<comment>")]
 pub fn post_comment(comment: Form<CommentForm>,conn: Database) -> Redirect {
+
+    if comment.captcha_user != comment.captcha_n {
+        return Redirect::to("/");
+    }
 
     let res = insert_into(comment::table)
         .values(CommentInsert{

@@ -9,6 +9,8 @@ use chrono::prelude::*;
 
 use regex::Regex;
 
+use crate::services::captcha::get_captcha;
+
 #[derive(Queryable)]
 struct PostViewDB {
     pub display_name: String,
@@ -39,6 +41,8 @@ struct PostViewTera {
     pub id: i32,
     pub comments: Vec<CommentViewTera>,
     pub tags: Vec<String>,
+    pub captcha_text: String,
+    pub captcha_n: u8,
 }
 
 #[get("/<slug>")]
@@ -108,6 +112,8 @@ pub fn post(slug: String, conn: Database) -> Option<Template>{
             .unwrap_or("");
             let img = img.to_string();
 
+            let (captcha_text,captcha_n) = get_captcha();
+
             let post = PostViewTera{
                 display_name: post.display_name,
                 content: post.content,
@@ -118,7 +124,9 @@ pub fn post(slug: String, conn: Database) -> Option<Template>{
                 excerpt: post.excerpt,
                 date: post.date.format("%e/%m/%Y").to_string(),
                 comments: comments_view,
-                tags
+                tags,
+                captcha_text: captcha_text.to_string(), 
+                captcha_n,
             };
 
             return Some(Template::render("post",&post));

@@ -68,6 +68,11 @@ MathJax.Hub.Config({
         <input type="url" name="url">
     </div>
     <textarea required name="content"></textarea>
+    <div id="captcha">
+        <label>Escribe este número con cifras: <i>{{ captcha_text }}</i></label>
+        <input type="hidden" name="captcha_n" value="{{ captcha_n }}">
+        <input type="number" name="captcha_user" required>
+    </div>
     <input type="submit" value="Enviar comentario">
     <small>Todos los comentarios están sujetos a moderación</small>
 </form>
