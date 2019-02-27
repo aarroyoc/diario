@@ -59,3 +59,9 @@ article, .comment-panel, .tags, .share{
     flex-wrap: wrap;
     justify-content: space-between;
 }
+
+#sent-comment{
+    text-align: center;
+    color: green;
+    background-color: rgb(185, 252, 130);
+}

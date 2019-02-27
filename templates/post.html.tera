@@ -24,6 +24,11 @@ MathJax.Hub.Config({
 {% endblock meta %}
 
 {% block main %}
+{% if sent_comment %}
+    <div id="sent-comment">
+        ¡Muchas gracias por tu comentario! El comentario está en moderación
+    </div>
+{% endif %}
 <article>
 <h1>{{ title }}</h1>
 <time>{{ date }}</time> - <span>{{ display_name }}</span>
@@ -71,6 +76,7 @@ MathJax.Hub.Config({
 </div>
 <div class="comment-panel">
 <div class="comments">
+    <h3>Comentarios</h3>
     {% for comment in comments %}
         <div class="comment">
             <img src="https://www.gravatar.com/avatar/{{ comment.email_hash }}?d=https://blog.adrianistan.eu/static/default.png&s=40" width="40" height="40">

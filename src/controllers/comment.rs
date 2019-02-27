@@ -1,7 +1,7 @@
 use diesel::prelude::*;
 use chrono::prelude::*;
 use rocket::request::Form;
-use rocket::response::Redirect;
+use rocket::response::{Redirect,Flash};
 use crate::Database;
 use crate::schema::comment;
 
@@ -33,10 +33,10 @@ pub struct CommentInsert {
 }
 
 #[post("/comment",data="<comment>")]
-pub fn post_comment(comment: Form<CommentForm>,conn: Database) -> Redirect {
+pub fn post_comment(comment: Form<CommentForm>,conn: Database) -> Flash<Redirect> {
 
     if comment.captcha_user != comment.captcha_n {
-        return Redirect::to("/");
+        return Flash::error(Redirect::to("/"),"captcha_fail");
     }
 
     let res = insert_into(comment::table)
@@ -54,7 +54,8 @@ pub fn post_comment(comment: Form<CommentForm>,conn: Database) -> Redirect {
     
     if let Err(err) = res {
         eprintln!("error adding tags: {:?}",err);
+        return Flash::error(Redirect::to("/"),"error");
     }
 
-    Redirect::to(format!("/{}",comment.slug))
+    Flash::success(Redirect::to(format!("/{}",comment.slug)),"posted!")
 }

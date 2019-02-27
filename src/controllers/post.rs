@@ -3,6 +3,8 @@ use crate::schema::{post,username,comment,tag};
 use crate::models::Comment;
 
 use rocket_contrib::templates::Template;
+use rocket::http::Cookies;
+use rocket::request::FlashMessage;
 
 use diesel::prelude::*;
 use chrono::prelude::*;
@@ -43,10 +45,11 @@ struct PostViewTera {
     pub tags: Vec<String>,
     pub captcha_text: String,
     pub captcha_n: u8,
+    pub sent_comment: bool,
 }
 
 #[get("/<slug>")]
-pub fn post(slug: String, conn: Database) -> Option<Template>{
+pub fn post(slug: String, flash: Option<FlashMessage>, conn: Database) -> Option<Template>{
     let post = post::table
         .inner_join(username::table)
         .select((
@@ -127,6 +130,7 @@ pub fn post(slug: String, conn: Database) -> Option<Template>{
                 tags,
                 captcha_text: captcha_text.to_string(), 
                 captcha_n,
+                sent_comment: flash.map_or(false,|msg|{msg.name() == "success"}),
             };
 
             return Some(Template::render("post",&post));
@@ -148,7 +152,7 @@ pub fn post_date(year: i32, month: u32, day: u32, slug: String, conn: Database) 
         .filter(post::slug.eq(&slug).and(post::date.eq(date)))
         .first::<crate::models::Post>(&conn.0);
     if post_x.is_ok() {
-        post(slug,conn)
+        post(slug, None,conn)
     } else {
         None
     }
