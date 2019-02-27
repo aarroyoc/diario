@@ -245,6 +245,7 @@ pub struct CommentModeration{
     pub author_name: String,
     pub content: String,
     pub title: String,
+    pub slug: String,
 }
 
 #[get("/admin/comments")]
@@ -255,7 +256,8 @@ pub fn list_comments(_user: Username, conn: Database) -> Option<Template> {
                         comment::id,
                         comment::author_name,
                         comment::content,
-                        post::title
+                        post::title,
+                        post::slug
                     ))
                     .filter(comment::status.eq("pending"))
                     .order(comment::date.asc())
