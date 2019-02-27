@@ -3,7 +3,6 @@ use crate::schema::{post,username,comment,tag};
 use crate::models::Comment;
 
 use rocket_contrib::templates::Template;
-use rocket::http::Cookies;
 use rocket::request::FlashMessage;
 
 use diesel::prelude::*;
@@ -29,6 +28,7 @@ struct CommentViewTera {
     pub content: String,
     pub date: String,
     pub email_hash: String,
+    pub url: Option<String>,
 }
 
 #[derive(Serialize)]
@@ -99,7 +99,8 @@ pub fn post(slug: String, flash: Option<FlashMessage>, conn: Database) -> Option
                     author: comment.author_name,
                     content: comment.content,
                     date: comment.date.format("%e/%m/%Y").to_string(),
-                    email_hash: format!("{:x}", digest)
+                    email_hash: format!("{:x}", digest),
+                    url: comment.author_url,
                 });
             }
 

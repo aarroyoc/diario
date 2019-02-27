@@ -81,7 +81,11 @@ MathJax.Hub.Config({
         <div class="comment">
             <img src="https://www.gravatar.com/avatar/{{ comment.email_hash }}?d=https://blog.adrianistan.eu/static/default.png&s=40" width="40" height="40">
             <div>
+                {% if comment.url %}
+                <div><a href="{{ comment.url }}" class="name">{{ comment.author }}</a> <time>{{ comment.date }}</time></div>
+                {% else %}
                 <div><span class="name">{{ comment.author }}</span> <time>{{ comment.date }}</time></div>
+                {% endif %}
                 <div class="comment-content">{{ comment.content }}</div>
             </div>
         </div>
