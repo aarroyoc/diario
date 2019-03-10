@@ -55,6 +55,7 @@ pub fn export(database_url: &str) {
 
     // POSTS (con IDs de COMENTARIOS)
     let posts = post::table
+        .filter(post::status.eq("published"))
         .load::<crate::models::Post>(&conn)
         .unwrap();
     for post in posts {
