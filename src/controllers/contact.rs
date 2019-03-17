@@ -35,7 +35,7 @@ pub fn post_contact(contact: Form<ContactForm>, config: State<Config> ) -> Redir
         .stdin(Stdio::piped())
         .spawn()
         .expect("Failed to send mail");
-    let mut stdin = cmd.stdin.as_mut().expect("Failed to open stdin");
+    let stdin = cmd.stdin.as_mut().expect("Failed to open stdin");
     stdin.write_all(contact.content.as_bytes()).expect("Failed to write to stdin");
 
     Redirect::to("/")

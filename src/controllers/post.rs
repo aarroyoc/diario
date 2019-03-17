@@ -11,7 +11,6 @@ use chrono::prelude::*;
 use regex::Regex;
 
 use crate::services::captcha::get_captcha;
-use crate::Config;
 
 #[derive(Queryable)]
 struct PostViewDB {
@@ -108,7 +107,7 @@ pub fn post(slug: String, flash: Option<FlashMessage>, conn: Database) -> Option
             /* Find first image in post */
             let regex = Regex::new(r#"([^>]*.(png|jpeg|jpg|webp|gif))"#).unwrap();
             let captures = regex.captures(&post.content);
-            let mut img = captures.and_then(|c|{
+            let img = captures.and_then(|c|{
                 c.get(1)
             })
             .and_then(|c|{
@@ -125,7 +124,7 @@ pub fn post(slug: String, flash: Option<FlashMessage>, conn: Database) -> Option
                 title: post.title,
                 name: slug,
                 id: post.id,
-                img: img,
+                img,
                 excerpt: post.excerpt,
                 date: post.date.format("%e/%m/%Y").to_string(),
                 comments: comments_view,

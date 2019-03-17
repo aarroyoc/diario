@@ -48,7 +48,7 @@ Subir imágenes
 (ActivityPub feed)
 (resaltado sintaxis) - DONE
 (SPARQL Endpoint? and individual RDF resources bajo demanda)
-(una vez al dia, se reconstruye la base de datos RDF global) - DONE
+(una vez al dia, se reconstruye la base de datos RDF global) - Hacerlo en Python
 (Comentarios, contacto, encuestas)
 Admin - DONE
 (API MicroPub? Python?)

@@ -1,5 +1,4 @@
 use rocket::response::Redirect;
-use rocket::response::NamedFile;
 use rocket_contrib::templates::Template;
 
 use crate::Database;
