@@ -1,4 +1,5 @@
 // Cada día, si se ha actualizado la base de datos, modificar el fichero RDF, regenerar RSS y Sitemap
+// Debería ser un proceso independiente la generación del RDF, hecho en Python
 use diesel::prelude::*;
 use diesel::pg::PgConnection;
 

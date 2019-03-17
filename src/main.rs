@@ -19,7 +19,10 @@ use rocket::fairing::AdHoc;
 #[database("postgres_db")]
 pub struct Database(diesel::PgConnection);
 
-pub struct GmailPassword(String);
+pub struct Config{
+    pub gmail_password: String,
+    pub hostname: String,
+}
 
 /* RUTAS
 Cronologico (paginado) - DONE
@@ -105,9 +108,13 @@ fn main() {
     ])
     .mount("/static", StaticFiles::from("static"))
     .mount("/wp-content", StaticFiles::from("wp-content"))
-    .attach(AdHoc::on_attach("GmailPassword",|rocket| {
+    .attach(AdHoc::on_attach("ConfigState",|rocket| {
             let gmail_password = rocket.config().get_str("gmail_password").unwrap().to_string();
-            Ok(rocket.manage(GmailPassword(gmail_password)))
+            let hostname = rocket.config().get_str("host").unwrap().to_string();
+            Ok(rocket.manage(Config{
+                hostname,
+                gmail_password,
+            }))
     }))
     .launch();
 }

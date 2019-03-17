@@ -5,7 +5,7 @@ use std::process::{Command,Stdio};
 use std::io::Write;
 use rocket::request::Form;
 use rocket::State;
-use crate::GmailPassword;
+use crate::Config;
 
 #[get("/contacto")]
 pub fn get_contact() -> Template {
@@ -21,7 +21,7 @@ pub struct ContactForm {
 }
 
 #[post("/contacto",data="<contact>")]
-pub fn post_contact(contact: Form<ContactForm>, gmail_password: State<GmailPassword> ) -> Redirect{
+pub fn post_contact(contact: Form<ContactForm>, config: State<Config> ) -> Redirect{
     /* Me he dado cuenta que la mayoría de spam bots no rellenan el campo title */
     if contact.title.is_empty() {
         return Redirect::to("/");
@@ -31,7 +31,7 @@ pub fn post_contact(contact: Form<ContactForm>, gmail_password: State<GmailPassw
         .arg("scripts/send_email.py")
         .arg(&contact.title)
         .arg(&contact.email)
-        .arg(&gmail_password.0)
+        .arg(&config.gmail_password)
         .stdin(Stdio::piped())
         .spawn()
         .expect("Failed to send mail");

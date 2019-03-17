@@ -3,6 +3,7 @@ template_dir = "templates/"
 keep_alive = 5
 limits = { forms = 32768 }
 gmail_password = ""
+host = "https://blog.adrianistan.eu"
 
 [global.databases]
 postgres_db = { url = "postgres://blog:blog@192.168.0.158/blog" }

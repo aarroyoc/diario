@@ -7,43 +7,9 @@ use diesel::prelude::*;
 use chrono::prelude::*;
 
 
-/*#[derive(Queryable)]
-struct PostAuthor {
-    pub email: String,
-    pub title: String,
-}*/
-
 #[get("/")]
 pub fn index(conn: Database) -> Option<Template> {
     index_date(Utc::now().naive_local().timestamp(),conn)
-    
-    //let posts: Vec<crate::models::Post> = sql_query("SELECT * FROM post ORDER BY id").load(&conn).unwrap();
-    //let users = username::table.load::<Username>(&conn.0).expect("Error loading users");
-    /*let posts = post::table
-        .load::<crate::models::Post>(&conn.0)
-        .expect("Error loading posts");
-    for post in posts {
-        println!("{}", post.title);
-        println!("----------\n");
-        println!("{}", post.content);
-    }*/
-    /*let p = post::table
-        .inner_join(username::table)
-        .select((
-            username::email,
-            post::title
-        ))
-        .load::<PostAuthor>(&conn.0)
-        .expect("ERROR");
-
-    
-    for post in p {
-        println!("{}", post.title);
-        println!("----------\n");
-        println!("{}", post.email);
-    }*/
-    //let debug = diesel::debug_query::<diesel::pg::Pg, _>(&p);
-    //println!("The insert query: {:?}", debug);
 }
 
 #[derive(Queryable,Serialize)]
