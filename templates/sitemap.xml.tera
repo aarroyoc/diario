@@ -1,0 +1,10 @@
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+        <loc>https://blog.adrianistan.eu</loc>
+    </url>
+    {% for post in posts %}
+        <url>
+            <loc>https://blog.adrianistan.eu/{{ post }}</loc>
+        </url>
+    {% endfor %}
+</urlset>

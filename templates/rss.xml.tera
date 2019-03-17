@@ -1,0 +1,19 @@
+<rss version="2.0">
+    <channel>
+        <title>Adrianistán</title>
+        <link>https://blog.adrianistan.eu</link>
+        <description>El blog de Adrián Arroyo</description>
+        <language>es</language>
+        <generator>Diario, a fast and safe blog engine</generator>
+        {% for post in posts %}
+            <item>
+                <title>{{ post.title }}</title>
+                <link>https://blog.adrianistan.eu/{{ post.slug }}</link>
+                <guid isPermaLink="true">https://blog.adrianistan.eu/{{ post.slug }}</guid>
+                <description><![CDATA[{{ post.content }}]]></description>
+                <comments>https://blog.adrianistan.eu/{{ post.slug }}</comments>
+                <pubDate>{{ post.date_rfc822 }}</pubDate>
+            </item>
+        {% endfor %}
+    </channel>
+</rss>
