@@ -124,7 +124,7 @@ pub fn export(database_url: &str) {
     file.write_all(rdf.as_bytes()).unwrap();
 
     // LLAMAR SCRIPTS
-    let _rss = Command::new("xsltproc")
+    /*let _rss = Command::new("xsltproc")
         .arg("-o")
         .arg("static/rss.xml")
         .arg("scripts/rdf-to-rss.xsl")
@@ -146,6 +146,6 @@ pub fn export(database_url: &str) {
         .arg("scripts/rdf-to-programacion-rss.xsl")
         .arg("blog.rdf")
         .spawn()
-        .expect("Failed to create Programacion RSS");
+        .expect("Failed to create Programacion RSS");*/
 
 }
