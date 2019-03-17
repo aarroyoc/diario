@@ -29,6 +29,19 @@ MathJax.Hub.Config({
         ¡Muchas gracias por tu comentario! El comentario está en moderación
     </div>
 {% endif %}
+<div class="share">
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Blog - Post Up -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6944504853839360"
+     data-ad-slot="8642027932"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
 <article>
 <h1>{{ title }}</h1>
 <time>{{ date }}</time> - <span>{{ display_name }}</span>
@@ -54,6 +67,19 @@ MathJax.Hub.Config({
     <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://blog.adrianistan.eu/{{name}}&title={{title}}">LinkedIn</a> / 
     <a href="http://www.meneame.net/submit.php?url=https://blog.adrianistan.eu/{{ name }}">Menéame</a> /
     <a href="https://getpocket.com/edit?url=https://blog.adrianistan.eu/{{name}}">Pocket</a>
+</div>
+<div class="share">
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Blog - Post comments -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6944504853839360"
+     data-ad-slot="6261383938"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
 </div>
 <div class="share">
     <h5>¡No te pierdas ningún artículo nuevo!</h5>
