@@ -5,10 +5,10 @@ pub struct Username {
     pub id: i32,
     pub password: String,
     pub email: String,
-    pub display_name: String
+    pub display_name: String,
 }
 
-#[derive(Queryable,Serialize)]
+#[derive(Queryable, Serialize)]
 pub struct Post {
     pub id: i32,
     pub author: i32,

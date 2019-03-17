@@ -1,10 +1,10 @@
 use std::io::Read;
 use std::process::*;
 
-use rocket::{Request, Data, Outcome, Outcome::*};
 use rocket::data::{self, FromDataSimple};
-use rocket::http::{Status, ContentType};
+use rocket::http::{ContentType, Status};
 use rocket::response::content::Content;
+use rocket::{Data, Outcome, Outcome::*, Request};
 
 const LIMIT: u64 = 1024;
 
@@ -28,16 +28,16 @@ impl FromDataSimple for Sparql {
     }
 }
 
-#[post("/api",data="<sparql>")]
-pub fn api(sparql: Sparql) -> Option<Content<String>>{
+#[post("/api", data = "<sparql>")]
+pub fn api(sparql: Sparql) -> Option<Content<String>> {
     let cmd = Command::new("python3")
         .arg("scripts/sparql.py")
         .arg(sparql.0)
         .output()
         .expect("Failed to execute SPARQL query");
     if let Ok(out) = String::from_utf8(cmd.stdout) {
-        let ct = ContentType::new("application","sparql-results+json");
-        Some(Content(ct,out))
+        let ct = ContentType::new("application", "sparql-results+json");
+        Some(Content(ct, out))
     } else {
         None
     }

@@ -1,12 +1,12 @@
-use crate::Database;
-use crate::schema::{post,username,comment,tag};
 use crate::models::Comment;
+use crate::schema::{comment, post, tag, username};
+use crate::Database;
 
-use rocket_contrib::templates::Template;
 use rocket::request::FlashMessage;
+use rocket_contrib::templates::Template;
 
-use diesel::prelude::*;
 use chrono::prelude::*;
+use diesel::prelude::*;
 
 use regex::Regex;
 
@@ -49,7 +49,7 @@ struct PostViewTera {
 }
 
 #[get("/<slug>")]
-pub fn post(slug: String, flash: Option<FlashMessage>, conn: Database) -> Option<Template>{
+pub fn post(slug: String, flash: Option<FlashMessage>, conn: Database) -> Option<Template> {
     let post = post::table
         .inner_join(username::table)
         .select((
@@ -58,7 +58,7 @@ pub fn post(slug: String, flash: Option<FlashMessage>, conn: Database) -> Option
             post::content,
             post::title,
             post::excerpt,
-            post::date
+            post::date,
         ))
         .filter(post::slug.eq(&slug))
         .first::<PostViewDB>(&conn.0);
@@ -73,29 +73,28 @@ pub fn post(slug: String, flash: Option<FlashMessage>, conn: Database) -> Option
             comment::author_name,
             comment::author_mail,
             comment::author_url,
-            comment::author_useragent
+            comment::author_useragent,
         ))
         .inner_join(post::table)
         .filter(post::slug.eq(&slug).and(comment::status.eq("approved")))
         .load::<Comment>(&conn.0);
 
     let tags = tag::table
-        .select(
-            tag::name
-        )
+        .select(tag::name)
         .inner_join(post::table)
         .filter(post::slug.eq(&slug))
         .load::<String>(&conn.0)
         .unwrap();
-    
 
     if let Ok(post) = post {
         if let Ok(comments) = comments {
             let mut comments_view = vec![];
             for comment in comments {
-                let author_mail = comment.author_mail.unwrap_or_else(|| "NoExiste@YaYeYo.com".to_string());
+                let author_mail = comment
+                    .author_mail
+                    .unwrap_or_else(|| "NoExiste@YaYeYo.com".to_string());
                 let digest = md5::compute(author_mail);
-                comments_view.push(CommentViewTera{
+                comments_view.push(CommentViewTera {
                     author: comment.author_name,
                     content: comment.content,
                     date: comment.date.format("%e/%m/%Y").to_string(),
@@ -107,18 +106,15 @@ pub fn post(slug: String, flash: Option<FlashMessage>, conn: Database) -> Option
             /* Find first image in post */
             let regex = Regex::new(r#"([^>]*.(png|jpeg|jpg|webp|gif))"#).unwrap();
             let captures = regex.captures(&post.content);
-            let img = captures.and_then(|c|{
-                c.get(1)
-            })
-            .and_then(|c|{
-                Some(c.as_str())
-            })
-            .unwrap_or("");
+            let img = captures
+                .and_then(|c| c.get(1))
+                .and_then(|c| Some(c.as_str()))
+                .unwrap_or("");
             let img = img.to_string();
 
-            let (captcha_text,captcha_n) = get_captcha();
+            let (captcha_text, captcha_n) = get_captcha();
 
-            let post = PostViewTera{
+            let post = PostViewTera {
                 display_name: post.display_name,
                 content: post.content,
                 title: post.title,
@@ -129,12 +125,12 @@ pub fn post(slug: String, flash: Option<FlashMessage>, conn: Database) -> Option
                 date: post.date.format("%e/%m/%Y").to_string(),
                 comments: comments_view,
                 tags,
-                captcha_text: captcha_text.to_string(), 
+                captcha_text: captcha_text.to_string(),
                 captcha_n,
-                sent_comment: flash.map_or(false,|msg|{msg.name() == "success"}),
+                sent_comment: flash.map_or(false, |msg| msg.name() == "success"),
             };
 
-            return Some(Template::render("post",&post));
+            return Some(Template::render("post", &post));
         } else {
             return None;
         }
@@ -145,15 +141,20 @@ pub fn post(slug: String, flash: Option<FlashMessage>, conn: Database) -> Option
 
 /* Be compatible with WordPress paths, but set canonical page to SLUG */
 #[get("/<year>/<month>/<day>/<slug>")]
-pub fn post_date(year: i32, month: u32, day: u32, slug: String, conn: Database) -> Option<Template> {
-
+pub fn post_date(
+    year: i32,
+    month: u32,
+    day: u32,
+    slug: String,
+    conn: Database,
+) -> Option<Template> {
     let date = NaiveDate::from_ymd(year, month, day);
     let date = date.and_hms(0, 0, 0);
     let post_x = post::table
         .filter(post::slug.eq(&slug).and(post::date.eq(date)))
         .first::<crate::models::Post>(&conn.0);
     if post_x.is_ok() {
-        post(slug, None,conn)
+        post(slug, None, conn)
     } else {
         None
     }
