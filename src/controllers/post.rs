@@ -104,7 +104,7 @@ pub fn post(slug: String, flash: Option<FlashMessage>, conn: Database) -> Option
             }
 
             /* Find first image in post */
-            let regex = Regex::new(r#"([^>]*.(png|jpeg|jpg|webp|gif))"#).unwrap();
+            let regex = Regex::new(r#"(https://blog.adrianistan.eu/[^>]*.(png|jpeg|jpg|webp|gif))"#).unwrap();
             let captures = regex.captures(&post.content);
             let img = captures
                 .and_then(|c| c.get(1))
