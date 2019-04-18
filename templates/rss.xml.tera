@@ -10,7 +10,7 @@
                 <title>{{ post.title }}</title>
                 <link>https://blog.adrianistan.eu/{{ post.slug }}</link>
                 <guid isPermaLink="true">https://blog.adrianistan.eu/{{ post.slug }}</guid>
-                <description><![CDATA[{{ post.content }}]]></description>
+                <description><![CDATA[{{ post.content | safe }}]]></description>
                 <comments>https://blog.adrianistan.eu/{{ post.slug }}</comments>
                 <pubDate>{{ post.date_rfc822 }}</pubDate>
             </item>
