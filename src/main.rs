@@ -116,7 +116,6 @@ fn main() {
             ],
         )
         .mount("/static", StaticFiles::from("static"))
-        .mount("/wp-content", StaticFiles::from("wp-content"))
         .attach(AdHoc::on_attach("ConfigState", |rocket| {
             let gmail_password = rocket
                 .config()
