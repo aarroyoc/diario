@@ -1,0 +1,23 @@
+version: "3.6"
+services:
+ postgres:
+  image: postgres:11.4
+  volumes:
+   - db-data:/var/lib/postgresql/data
+  environment:
+   POSTGRES_DB: postgres
+   POSTGRES_USER: postgres
+   POSTGRES_PASSWORD: postgres
+  healthcheck:
+   test: ["CMD-SHELL","pg_isready -U postgres"]
+   interval: 10s
+   timeout: 2s
+   retries: 10
+ diario:
+  build: .
+  ports:
+   - "6789:6789"
+  depends_on:
+   - postgres
+volumes:
+ db-data:
