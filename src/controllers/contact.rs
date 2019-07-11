@@ -1,8 +1,11 @@
 use crate::Config;
+use crate::services::mail::send_mail;
+
 use rocket::request::Form;
 use rocket::response::Redirect;
 use rocket::State;
 use rocket_contrib::templates::Template;
+
 use std::collections::HashMap;
 use std::io::Write;
 use std::process::{Command, Stdio};
@@ -27,18 +30,12 @@ pub fn post_contact(contact: Form<ContactForm>, config: State<Config>) -> Redire
         return Redirect::to("/");
     }
 
-    let mut cmd = Command::new("python3")
-        .arg("scripts/send_email.py")
-        .arg(&contact.title)
-        .arg(&contact.email)
-        .arg(&config.gmail_password)
-        .stdin(Stdio::piped())
-        .spawn()
-        .expect("Failed to send mail");
-    let stdin = cmd.stdin.as_mut().expect("Failed to open stdin");
-    stdin
-        .write_all(contact.content.as_bytes())
-        .expect("Failed to write to stdin");
+    send_mail(
+        "adrian.arroyocalle@gmail.com".to_owned(),
+        contact.email.clone(),
+        contact.title.clone(),
+        contact.content.clone(),
+        &config);
 
     Redirect::to("/")
 }

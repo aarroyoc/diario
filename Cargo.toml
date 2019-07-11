@@ -15,6 +15,8 @@ ring = "0.13.5"
 data-encoding = "2.1.2"
 regex = "1.1.2"
 rand = "0.6.5"
+lettre = "0.9"
+lettre_email = "0.9"
 
 [dependencies.rocket_contrib]
 version = "0.4.0"
