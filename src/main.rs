@@ -78,11 +78,12 @@ fn main() {
         postgres.push_str(url.as_str().unwrap());
     }
 
+    /*
     std::thread::spawn(move || loop {
         export::export(&postgres);
         println!("Finished Exporting");
         std::thread::sleep(std::time::Duration::from_secs(60 * 60 * 24));
-    });
+    });*/
 
     r.attach(Template::fairing())
         .attach(Database::fairing())
@@ -111,8 +112,7 @@ fn main() {
                 controllers::feed::feed,
                 controllers::feed::feed_rss_xml,
                 controllers::feed::sitemap,
-                controllers::feed::programacion_rss,
-                controllers::api::api,
+                controllers::feed::programacion_rss
             ],
         )
         .mount("/static", StaticFiles::from("static"))
