@@ -1,8 +1,10 @@
-FROM rustlang/rust:nightly-slim AS builder
+FROM debian:buster
 
 WORKDIR /opt/diario
 
-RUN apt update && apt install libpq-dev -y
+RUN apt update && apt install curl libpq-dev pkg-config build-essential libssl-dev -y
+RUN curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain nightly -y
+ENV PATH "/root/.cargo/bin:${PATH}"
 
 COPY Cargo.toml ./
 COPY Cargo.lock ./
