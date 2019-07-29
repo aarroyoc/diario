@@ -13,10 +13,12 @@ services:
    interval: 10s
    timeout: 2s
    retries: 10
+  restart: always
  diario:
   build: .
   ports:
    - "6789:6789"
+  restart: always
   depends_on:
    - postgres
 volumes:

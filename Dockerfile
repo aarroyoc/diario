@@ -11,8 +11,8 @@ COPY Cargo.lock ./
 
 COPY src ./src
 
-RUN cargo build --release
-RUN cp ./target/release/diario .
+RUN cargo build
+RUN cp ./target/debug/diario .
 
 COPY static ./static
 COPY templates ./templates
