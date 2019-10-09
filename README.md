@@ -13,14 +13,12 @@ Para que Diario funcione se necesita
 
 * Sistema Linux
 * Rust (nightly)
-* Python 3
-* xlstproc
 * PostgreSQL
-* librería rdflib de Python 3 (para la API SPARQL)
 
 # Instalación
 
 * Configura el fichero Rocket.toml (postgresql y gmail)
+* `docker-compose up`
 
 # Editor
 
@@ -31,13 +29,8 @@ El editor soporta edición del código fuente. Para ciertas cosas es imprescindi
 
 Los tags se insertan separados por comas. La fecha de publicación es aquella en la que su estado pasó a ser Published por primera vez
 
-# Contacto
+# Backup/Restore
 
-Para que el formulario de contacto funcione se necesita Python 3 y configurar la contraseña de Gmail en el fichero Rocket.toml
-
-# API SPARQL
-
-Se admiten queries SPARQL en /api. Deben hacer un POST con Content type: application/sparql-query y como contenido, la query
 ```
-curl -X POST localhost:8000/api -d "SELECT ?a WHERE { ?a ?b ?c.}" --header "Content-Type: application/sparql-query"
+ansible-playbook backup.yml -i 192.168.0.157, --ask-pass
 ```

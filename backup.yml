@@ -1,0 +1,24 @@
+- hosts: all
+  remote_user: pi
+  become_method: sudo
+  name: "Backup Diario"
+  tasks:   
+   - name: Backup Diario SQL
+     become: yes
+     shell: docker-compose exec postgres pg_dump -U postgres postgres > backup.sql
+     args:
+      chdir: /home/pi/diario
+
+   - name: Download SQL backup
+     fetch:
+      src: /home/pi/diario/backup.sql
+      dest: backups/diario.sql
+      flat: yes
+
+   - name: Compress Diario backup
+     local_action: archive
+     args:
+      path: 
+       - backups/diario.sql
+      dest: backups/diario-{{ ansible_date_time.date }}.sql.xz
+      format: xz
