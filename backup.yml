@@ -12,13 +12,5 @@
    - name: Download SQL backup
      fetch:
       src: /home/pi/diario/backup.sql
-      dest: backups/diario.sql
+      dest: backups/diario-{{ ansible_date_time.date }}.sql
       flat: yes
-
-   - name: Compress Diario backup
-     local_action: archive
-     args:
-      path: 
-       - backups/diario.sql
-      dest: backups/diario-{{ ansible_date_time.date }}.sql.xz
-      format: xz

@@ -4,9 +4,10 @@
   name: "Restore Diario"
   tasks:
    - name: Unpack backup
-     unarchive:
-      src: backups/diario.sql.xz
+     copy:
+      src: backups/diario.sql
       dest: /home/pi
+     
    - name: Restore SQL
      become: yes
      shell: docker-compose exec -T postgres psql -U postgres postgres < /home/pi/diario.sql
