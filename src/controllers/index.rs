@@ -22,7 +22,7 @@ struct ListingPost {
 #[derive(Serialize)]
 struct IndexPageData {
     pub posts: Vec<ListingPost>,
-    pub last_date: i64,
+    pub last_date: Option<i64>,
     pub tag: Option<String>,
 }
 
@@ -38,7 +38,11 @@ pub fn index_date(date: i64, conn: Database) -> Option<Template> {
         .load::<ListingPost>(&conn.0)
         .expect("Error loading posts");
 
-    let last_date = posts[posts.len() - 1].date.timestamp();
+    let last_date = if posts.is_empty() {
+        None
+    } else {
+        Some(posts[posts.len() - 1].date.timestamp())
+    };
 
     let data = IndexPageData {
         posts,
@@ -72,10 +76,11 @@ pub fn tag_date(tag: String, date: i64, conn: Database) -> Option<Template> {
         .load::<ListingPost>(&conn.0);
 
     if let Ok(posts) = posts {
-        if posts.is_empty() {
-            return None;
-        }
-        let last_date = posts[posts.len() - 1].date.timestamp();
+        let last_date = if posts.is_empty() {
+            None
+        } else {
+            Some(posts[posts.len() - 1].date.timestamp())
+        };
 
         let data = IndexPageData {
             posts,

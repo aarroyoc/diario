@@ -15,11 +15,20 @@
             <a href="/{{ post.name }}">Seguir leyendo</a>
         </section>
     {% endfor %}
+    <!-- Replace with endfor in Tera 1.0 -->
+    {% set post_length = posts | length %}
+    {% if post_length == 0 %}
+        <section>
+            <p>No hay más artículos</p>
+        </section>
+    {% endif %}
     <div class="more">
-        {% if tag %}
-        <a href="/tag/{{ tag }}?date={{ last_date }}">&gt;&gt;&gt; Más entradas &gt;&gt;&gt; </a>
-        {% else %}
-        <a href="/?date={{ last_date }}">&gt;&gt;&gt; Más entradas &gt;&gt;&gt; </a>
+        {% if last_date %}
+            {% if tag %}
+            <a href="/tag/{{ tag }}?date={{ last_date }}">&gt;&gt;&gt; Más entradas &gt;&gt;&gt; </a>
+            {% else %}
+            <a href="/?date={{ last_date }}">&gt;&gt;&gt; Más entradas &gt;&gt;&gt; </a>
+            {% endif %}
         {% endif %}
     </div>
 {% endblock main %}

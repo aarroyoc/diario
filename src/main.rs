@@ -28,32 +28,15 @@ pub struct Config {
 }
 
 /* RUTAS
-Cronologico (paginado) - DONE
-Tag (paginado) - DONE
-Post (actualizar formato) - DONE
-Páginas - DONE
-Contacto - DONE
-RSS - DONE
-Migrar imágenes - DONE
-Sitemap (Transformación RDF?) - DONE
 Robots.txt
-Sistema Backups
-Miniaturas Telegram, Facebook, Twitter - DONE
-Favicon - DONE
-RSS Programación (MailChimp) - DONE
-Suscribirse FEED, MailChimp, Telegram
-Compartir redes sociales
-Subir imágenes
 (RDFa, RDF/XML)
 (OpenSearch)
 (Creative Commons)
 (Generar BibTeX)
 (ActivityPub feed)
-(resaltado sintaxis) - DONE
 (SPARQL Endpoint? and individual RDF resources bajo demanda)
 (una vez al dia, se reconstruye la base de datos RDF global) - Hacerlo en Python
 (Comentarios, contacto, encuestas)
-Admin - DONE
 (API MicroPub? Python?)
 (Analíticas)
 (AdSense) - DONE
@@ -76,13 +59,6 @@ fn main() {
             .unwrap();
         postgres.push_str(url.as_str().unwrap());
     }
-
-    /*
-    std::thread::spawn(move || loop {
-        export::export(&postgres);
-        println!("Finished Exporting");
-        std::thread::sleep(std::time::Duration::from_secs(60 * 60 * 24));
-    });*/
 
     r.attach(Template::fairing())
         .attach(Database::fairing())
