@@ -11,6 +11,7 @@
     {% for post in posts %}
         <section>
             <a class="post-title" href="/{{ post.name }}"><h4>{{ post.title }}</h4></a>
+            <small><time datetime="{{ post.date }}">{{ post.date | date(format="%d/%m/%Y") }}</time></small>
             <div class="excerpt">{{ post.excerpt | safe }}</div>
             <a href="/{{ post.name }}">Seguir leyendo</a>
         </section>
