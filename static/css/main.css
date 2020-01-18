@@ -1,6 +1,6 @@
 body{
     font-family: 'IBM Plex Serif', serif;
-    background-color: rgb(240, 255, 228);
+    background-color: white;
     font-size: 1.15em;
     padding: 0;
     margin: 0;
@@ -61,10 +61,7 @@ nav > a:visited{
 main{
     display: flex;
     justify-content: center;
-    background:
-    linear-gradient(135deg, rgb(240, 255, 228) 21px, #d9ecff 22px, #d9ecff 24px, transparent 24px, transparent 67px, #d9ecff 67px, #d9ecff 69px, transparent 69px),
-    linear-gradient(225deg, rgb(240, 255, 228) 21px, #d9ecff 22px, #d9ecff 24px, transparent 24px, transparent 67px, #d9ecff 67px, #d9ecff 69px, transparent 69px)0 64px;
-    background-color:rgb(240, 255, 228);
+    background-color: white;
     background-size: 64px 128px;
 }
 #center{

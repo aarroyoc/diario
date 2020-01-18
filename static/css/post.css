@@ -33,7 +33,7 @@
 }
 
 article, .comment-panel, .tags, .share{
-    background-color: rgb(240, 255, 228);
+    background-color: white;
     padding-left: 10px;
     padding-right: 10px;
     margin-top: 25px;

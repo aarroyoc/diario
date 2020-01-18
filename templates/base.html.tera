@@ -7,8 +7,7 @@
         <link rel="stylesheet" href="/static/fonts.css" type="text/css">
         <link rel="sitemap" href="/sitemap.xml" />
         <link rel="alternate" type="application/rss+xml" href="https://blog.adrianistan.eu/rss.xml" />
-        <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Serif" rel="stylesheet">
-        <link rel="stylesheet" href="/static/main.css" type="text/css">
+        <link rel="stylesheet" href="/static/css/main.css" type="text/css">
         <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
         <!-- Global site tag (gtag.js) - Google Analytics -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=UA-20035972-33"></script>

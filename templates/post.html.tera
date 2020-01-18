@@ -2,7 +2,7 @@
 {% block title %}{{ title }} - {% endblock title %}
 
 {% block css %}
-<link rel="stylesheet" href="/static/post.css">
+<link rel="stylesheet" href="/static/css/post.css">
 <link rel="stylesheet" href="/static/prism/prism.css">
 <script src="/static/prism/prism.min.js" async defer></script>
 <script type="text/x-mathjax-config">

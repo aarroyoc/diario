@@ -2,7 +2,7 @@
 {% block title %}Contacto - {% endblock title %}
 
 {% block css %}
-<link rel="stylesheet" href="/static/contact.css">
+<link rel="stylesheet" href="/static/css/contact.css">
 {% endblock css %}
 
 {% block main %}
