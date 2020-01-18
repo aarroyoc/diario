@@ -3,10 +3,9 @@
     display: flex;
 }
 #editor{
-    height: 100%;
     flex: 1;
 }
 #output{
-    height: 100%;
     flex: 1;
+    overflow: auto;
 }
