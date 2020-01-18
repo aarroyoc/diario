@@ -28,7 +28,7 @@
         {% block css %}{% endblock css %}
         {% block meta %}{% endblock meta %}
     </head>
-    <body>
+    <body vocab="http://schema.org/" typeof="Blog" resource="https://blog.adrianistan.eu">
         <div class="title">
             <h1><a href="/">Adrianistán</a></h1>
             <h2>El blog de Adrián Arroyo</h2>
@@ -53,14 +53,15 @@
         {% endblock main %}
             </div>
         </main>
-        <footer>
-        {% block footer %}
-        &copy; Adrián Arroyo Calle - 2012-2019
-        <br>
-        Contenido bajo licencia Creative-Commons 4.0 BY-NC-SA salvo que se indique lo contrario.
-        <br>
-        Este blog funciona gracias a <a href="https://github.com/aarroyoc/diario">Diario</a>, un sistema de blogging programado en Rust
-        {% endblock footer %}
+        <footer property="author" typeof="Person">
+            <meta property="name" content="Adrián Arroyo Calle">
+            {% block footer %}
+            &copy; Adrián Arroyo Calle - 2012-2020
+            <br>
+            Contenido bajo licencia Creative-Commons 4.0 BY-NC-SA salvo que se indique lo contrario.
+            <br>
+            Este blog funciona gracias a <a href="https://github.com/aarroyoc/diario">Diario</a>, un sistema de blogging programado en Rust
+            {% endblock footer %}
         </footer>
     </body>
 </html>

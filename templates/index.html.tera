@@ -9,10 +9,12 @@
     <h2>Artículos con etiqueta &laquo;{{ tag }}&raquo;</h2>
     {% endif %}
     {% for post in posts %}
-        <section>
-            <a class="post-title" href="/{{ post.name }}"><h4>{{ post.title }}</h4></a>
+        <section property="blogPost" typeof="BlogPosting" resource="/{{ post.name }}">
+            <a class="post-title" href="/{{ post.name }}"><h4 property="name">{{ post.title }}</h4></a>
             <small><time datetime="{{ post.date }}">{{ post.date | date(format="%d/%m/%Y") }}</time></small>
-            <div class="excerpt">{{ post.excerpt | safe }}</div>
+            <meta property="datePublished" content="{{ post.date }}">
+            <meta property="dateModified" content="{{ post.date }}">
+            <div property="headline" class="excerpt">{{ post.excerpt | safe }}</div>
             <a href="/{{ post.name }}">Seguir leyendo</a>
         </section>
     {% endfor %}
