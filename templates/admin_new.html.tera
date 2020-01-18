@@ -1,24 +1,6 @@
 {% block main %}
-<script src="/static/tinymce/js/tinymce/tinymce.min.js"></script>
-<script src="/static/tinymce/js/tinymce/plugins/code/plugin.min.js"></script>
-<script src="/static/tinymce/js/tinymce/plugins/lists/plugin.min.js"></script>
-<script src="/static/tinymce/js/tinymce/plugins/table/plugin.min.js"></script>
-<script src="/static/tinymce/js/tinymce/plugins/link/plugin.min.js"></script>
-<script src="/static/tinymce/js/tinymce/plugins/image/plugin.min.js"></script>
-<script>
-tinymce.init({
-  selector: "#editor",  // change this value according to your HTML
-  plugins: "code lists table link image",
-  menubar: "tools numlist bullist table insert",
-  code_dialog_width: 300
-});
-
-</script>
-<style>
-#editor{
-    height: 700px;
-}
-</style>
+<script src="/static/js/editor.js"></script>
+<link rel="stylesheet" href="/static/css/editor.css">
 <h1>Editar artículo</h1>
 <form method="POST" action="/admin/post/new">
     <input type="text" name="title" placeholder="Título">
@@ -28,8 +10,11 @@ tinymce.init({
     </select>
     <input type="text" name="slug" placeholder="Slug">
     <input type="text" name="tags" placeholder="Tags">
-    <br>
-    <textarea id="editor" name="content"></textarea>
     <input type="submit" value="Guardar">
+    <br>
+    <main id="main">
+        <textarea id="editor" name="content"></textarea>
+        <div id="output"></div>
+    </main>
 </form>
 {% endblock main %}
