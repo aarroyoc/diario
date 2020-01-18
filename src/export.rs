@@ -13,6 +13,7 @@ use chrono::prelude::*;
 // Thread aparte
 // Obtener configuración de Rocket.toml
 
+#[allow(dead_code)]
 pub fn export(database_url: &str) {
     let conn = PgConnection::establish(&database_url)
         .expect(&format!("Error connecting to {}", database_url));

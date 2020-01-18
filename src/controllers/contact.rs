@@ -1,5 +1,5 @@
-use crate::Config;
 use crate::services::mail::send_mail;
+use crate::Config;
 
 use rocket::request::Form;
 use rocket::response::Redirect;
@@ -7,8 +7,6 @@ use rocket::State;
 use rocket_contrib::templates::Template;
 
 use std::collections::HashMap;
-use std::io::Write;
-use std::process::{Command, Stdio};
 
 #[get("/contacto")]
 pub fn get_contact() -> Template {
@@ -30,12 +28,16 @@ pub fn post_contact(contact: Form<ContactForm>, config: State<Config>) -> Redire
         return Redirect::to("/");
     }
 
-    send_mail(
+    let status = send_mail(
         "adrian.arroyocalle@gmail.com".to_owned(),
         contact.email.clone(),
         contact.title.clone(),
         contact.content.clone(),
-        &config);
+        &config,
+    );
+    if let Err(msg) = status {
+        println!("{}", msg);
+    }
 
     Redirect::to("/")
 }

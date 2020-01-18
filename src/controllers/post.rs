@@ -104,11 +104,13 @@ pub fn post(slug: String, flash: Option<FlashMessage>, conn: Database) -> Option
             }
 
             /* Find first image in post */
-            let regex = Regex::new(r#"(https://files.adrianistan.eu/[^>]*.(png|jpeg|jpg|webp|gif))"#).unwrap();
+            let regex =
+                Regex::new(r#"(https://files.adrianistan.eu/[^>]*.(png|jpeg|jpg|webp|gif))"#)
+                    .unwrap();
             let captures = regex.captures(&post.content);
             let img = captures
                 .and_then(|c| c.get(1))
-                .and_then(|c| Some(c.as_str()))
+                .map(|c| c.as_str())
                 .unwrap_or("");
             let img = img.to_string();
 
@@ -130,12 +132,12 @@ pub fn post(slug: String, flash: Option<FlashMessage>, conn: Database) -> Option
                 sent_comment: flash.map_or(false, |msg| msg.name() == "success"),
             };
 
-            return Some(Template::render("post", &post));
+            Some(Template::render("post", &post))
         } else {
-            return None;
+            None
         }
     } else {
-        return None;
+        None
     }
 }
 

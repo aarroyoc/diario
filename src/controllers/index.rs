@@ -85,7 +85,7 @@ pub fn tag_date(tag: String, date: i64, conn: Database) -> Option<Template> {
         let data = IndexPageData {
             posts,
             last_date,
-            tag: Some(tag.clone()),
+            tag: Some(tag),
         };
         return Some(Template::render("index", &data));
     }
