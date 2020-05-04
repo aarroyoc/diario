@@ -7,6 +7,10 @@
         <small>De <a href="/{{ comment.slug }}">{{ comment.title }}</a></small>
         <small><a href="/admin/approve/{{ comment.id }}">Aprobar</a></small>
         <small><a href="/admin/delete/{{ comment.id }}">Eliminar</a></small>
+        <form action="/admin/approve/{{ comment.id }}" method="POST">
+            <textarea name="content"></textarea>
+            <input type="submit" value="Responder y aprobar">
+        </form>
     </div>
 {% endfor %}
 {% endblock main %}

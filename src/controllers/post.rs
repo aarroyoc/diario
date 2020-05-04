@@ -77,6 +77,7 @@ pub fn post(slug: String, flash: Option<FlashMessage>, conn: Database) -> Option
         ))
         .inner_join(post::table)
         .filter(post::slug.eq(&slug).and(comment::status.eq("approved")))
+        .order(comment::date)
         .load::<Comment>(&conn.0);
 
     let tags = tag::table

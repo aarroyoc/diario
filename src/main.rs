@@ -84,6 +84,7 @@ fn main() {
                 controllers::admin::list_comments,
                 controllers::admin::comment_approve,
                 controllers::admin::comment_delete,
+                controllers::admin::comment_approve_response,
                 controllers::feed::feed,
                 controllers::feed::feed_rss_xml,
                 controllers::feed::sitemap,

@@ -1,6 +1,10 @@
 use crate::models::*;
 use crate::schema::*;
+use crate::services::mail::send_mail;
 use crate::Database;
+use crate::Config;
+
+use crate::controllers::comment::CommentInsert;
 
 use std::collections::HashMap;
 
@@ -13,6 +17,7 @@ use rocket_contrib::templates::Template;
 use chrono::prelude::*;
 use data_encoding::HEXLOWER;
 use diesel::prelude::*;
+use diesel::dsl::insert_into;
 use ring::digest;
 
 impl<'a, 'r> FromRequest<'a, 'r> for Username {
@@ -296,4 +301,66 @@ pub fn comment_approve(_user: Username, id: i32, conn: Database) -> Redirect {
         eprintln!("error approving comment: {:?}", err);
     }
     Redirect::to("/admin/comments")
+}
+
+#[derive(FromForm)]
+pub struct CommentResponseForm {
+    pub content: String,
+}
+
+#[post("/admin/approve/<id>", data = "<comment>")]
+pub fn comment_approve_response(user: Username, id: i32, comment: Form<CommentResponseForm>, conn: Database, config: State<Config>) -> Redirect {
+    /* Additional code to save response and send mail to original author */
+    let post_id = comment::table
+        .select(comment::post_id)
+        .filter(comment::id.eq(id))
+        .load::<i32>(&conn.0)
+        .unwrap()[0];
+
+    let author_mail = comment::table
+        .select(comment::author_mail)
+        .filter(comment::id.eq(id))
+        .load::<Option<String>>(&conn.0)
+        .unwrap();
+
+    let post_url = &post::table
+        .select(post::slug)
+        .filter(post::id.eq(post_id))
+        .load::<String>(&conn.0)
+        .unwrap()[0];
+
+    if let Some(author_mail) = &author_mail[0] {
+        let mail_text = format!("Has recibido una respuesta a tu comentario en el post 'https://blog.adrianistan.eu/{}'", post_url.clone());
+        let status = send_mail(
+            "adrian.arroyocalle@gmail.com".to_owned(),
+            author_mail.clone(),
+            "Te han respondido en el blog Adrianistán".to_owned(),
+            mail_text,
+            &config,
+        );
+        if let Err(msg) = status {
+            eprintln!("error: {}", msg);
+        }
+    }
+    
+    let response = CommentInsert{
+        date: Utc::now().naive_local(),
+        content: comment.content.clone(),
+        status: "approved".to_string(),
+        post_id: post_id,
+        author_name: user.display_name.clone(),
+        author_mail: Some(user.email.clone()),
+        author_url: None,
+        author_useragent: None,
+    };
+
+    let res = insert_into(comment::table)
+        .values(response)
+        .execute(&conn.0);
+
+    if let Err(err) = res {
+        eprintln!("error: {:?}", err);
+    }
+
+    comment_approve(user, id, conn)
 }
