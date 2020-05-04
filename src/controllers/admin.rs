@@ -332,8 +332,8 @@ pub fn comment_approve_response(user: Username, id: i32, comment: Form<CommentRe
     if let Some(author_mail) = &author_mail[0] {
         let mail_text = format!("Has recibido una respuesta a tu comentario en el post 'https://blog.adrianistan.eu/{}'", post_url.clone());
         let status = send_mail(
-            "adrian.arroyocalle@gmail.com".to_owned(),
             author_mail.clone(),
+            "adrian.arroyocalle@gmail.com".to_owned(),
             "Te han respondido en el blog Adrianistán".to_owned(),
             mail_text,
             &config,
