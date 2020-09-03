@@ -9,6 +9,7 @@
         <link rel="alternate" type="application/rss+xml" href="https://blog.adrianistan.eu/rss.xml" />
         <link rel="stylesheet" href="/static/css/main.css" type="text/css">
         <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
+        <meta name="conexoo_verification" content="93b28d73fc3e58f1cd708eefc9fdc3627ca5f798f95209d128dfe0a99bba0591519591809d6d9f280e561b3a0283122a423661f7f036e9c77ef1621c57eb7923">
         <!-- Global site tag (gtag.js) - Google Analytics -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=UA-20035972-33"></script>
         <script>

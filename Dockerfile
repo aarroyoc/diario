@@ -1,4 +1,4 @@
-FROM debian:buster
+FROM ubuntu:20.04
 
 WORKDIR /opt/diario
 
