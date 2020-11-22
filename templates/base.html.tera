@@ -10,15 +10,21 @@
         <link rel="stylesheet" href="/static/css/main.css" type="text/css">
         <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
         <meta name="conexoo_verification" content="93b28d73fc3e58f1cd708eefc9fdc3627ca5f798f95209d128dfe0a99bba0591519591809d6d9f280e561b3a0283122a423661f7f036e9c77ef1621c57eb7923">
-        <!-- Global site tag (gtag.js) - Google Analytics -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-20035972-33"></script>
+        <!-- Fathom - simple website analytics - https://github.com/usefathom/fathom -->
         <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'UA-20035972-33');
+        (function(f, a, t, h, o, m){
+            a[h]=a[h]||function(){
+                (a[h].q=a[h].q||[]).push(arguments)
+            };
+            o=f.createElement('script'),
+            m=f.getElementsByTagName('script')[0];
+            o.async=1; o.src=t; o.id='fathom-script';
+            m.parentNode.insertBefore(o,m)
+        })(document, window, '//stats.adrianistan.eu/tracker.js', 'fathom');
+        fathom('set', 'siteId', 'PEEGA');
+        fathom('trackPageview');
         </script>
+        <!-- / Fathom -->
         <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
         <script>
             (adsbygoogle = window.adsbygoogle || []).push({
@@ -38,7 +44,8 @@
         <nav>
             <a href="http://adrianistan.eu">Acerca de mí</a>
             <a href="/rust-101-tutorial-rust-espanol">Rust</a>
-            <a href="/tag/programacion">Programación</a>
+            <a href="/tag/prolog">Prolog</a>
+            <a href="https://mapaquiz.com">Mapaquiz</a>
             <a href="https://tergaxon.com">Tergaxon</a>
             <a href="/contacto">Contacto</a>
             <form class="search" action="https://cse.google.com/cse" method="GET">
