@@ -60,7 +60,7 @@ pub fn post(slug: String, flash: Option<FlashMessage>, conn: Database) -> Option
             post::excerpt,
             post::date,
         ))
-        .filter(post::slug.eq(&slug))
+        .filter(post::slug.eq(&slug).and(post::status.ne("hidden")))
         .first::<PostViewDB>(&conn.0);
 
     let comments = comment::table

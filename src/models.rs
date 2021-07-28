@@ -16,7 +16,7 @@ pub struct Post {
     pub content: String,
     pub title: String,
     pub excerpt: String,
-    pub status: String, /* draft, published */
+    pub status: String, /* draft, published, hidden */
     pub comment_status: String,
     pub slug: String,
 }
