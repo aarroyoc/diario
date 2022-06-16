@@ -5,20 +5,20 @@ authors = ["Adrián Arroyo Calle <adrian.arroyocalle@gmail.com>"]
 edition = "2018"
 
 [dependencies]
-rocket = "0.4.6"
-diesel = { version = "1.4.5", features = ["chrono"]}
-serde = "1.0.117"
-serde_derive = "1.0.117"
+rocket = "0.4.11"
+diesel = { version = "1.4.8", features = ["chrono"]}
+serde = "1.0.137"
+serde_derive = "1.0.137"
 chrono = { version = "0.4.19", features = ["serde"] }
 md5 = "0.7.0"
 ring = "0.13.5"
 data-encoding = "2.3.1"
-regex = "1.4.2"
-rand = "0.7.3"
-lettre = "0.9.3"
+regex = "1.5.6"
+rand = "0.8.5"
+lettre = "0.9.6"
 lettre_email = "0.9.4"
 
 [dependencies.rocket_contrib]
-version = "0.4.6"
+version = "0.4.7"
 default-features = false
 features = ["serve","tera_templates","diesel_postgres_pool"]
