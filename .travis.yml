@@ -1,6 +1,0 @@
-language: minimal
-dist: bionic
-services:
-- docker
-script:
-- docker build -t diario .
