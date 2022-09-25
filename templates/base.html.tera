@@ -8,8 +8,7 @@
         <link rel="sitemap" href="/sitemap.xml" />
         <link rel="alternate" type="application/rss+xml" href="https://blog.adrianistan.eu/rss.xml" />
         <link rel="stylesheet" href="/static/css/main.css" type="text/css">
-        <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
-        <meta name="conexoo_verification" content="93b28d73fc3e58f1cd708eefc9fdc3627ca5f798f95209d128dfe0a99bba0591519591809d6d9f280e561b3a0283122a423661f7f036e9c77ef1621c57eb7923">
+        <link rel="icon" href="/static/favicon.ico" type="image/x-icon">        
         <!-- Fathom - simple website analytics - https://github.com/usefathom/fathom -->
         <script>
         (function(f, a, t, h, o, m){
@@ -25,13 +24,13 @@
         fathom('trackPageview');
         </script>
         <!-- / Fathom -->
-        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        {# <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
         <script>
             (adsbygoogle = window.adsbygoogle || []).push({
                 google_ad_client: "ca-pub-6944504853839360",
                 enable_page_level_ads: true
             });
-        </script>
+        </script> #}
         {% block css %}{% endblock css %}
         {% block meta %}{% endblock meta %}
     </head>
@@ -64,7 +63,7 @@
         <footer property="author" typeof="Person">
             <meta property="name" content="Adrián Arroyo Calle">
             {% block footer %}
-            &copy; Adrián Arroyo Calle - 2012-2020
+            &copy; Adrián Arroyo Calle - 2012-2022
             <br>
             Contenido bajo licencia Creative-Commons 4.0 BY-NC-SA salvo que se indique lo contrario.
             <br>

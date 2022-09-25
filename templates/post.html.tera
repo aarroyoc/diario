@@ -5,12 +5,12 @@
 <link rel="stylesheet" href="/static/css/post.css">
 <link rel="stylesheet" href="/static/prism/prism.css">
 <script src="/static/prism/prism.min.js" async defer></script>
-<script type="text/x-mathjax-config">
+{# <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
   tex2jax: {inlineMath: [['$','$'], ['\\(','\\)'],['[latex]','[/latex]']],displayMath: [['$$','$$']],processEscapes: true}
 });
 </script>
-<script type="text/javascript" async src="/static/MathJax-2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script type="text/javascript" async src="/static/MathJax-2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script> #}
 {% endblock css %}
 
 {% block meta %}
@@ -29,7 +29,9 @@ MathJax.Hub.Config({
         ¡Muchas gracias por tu comentario! El comentario está en moderación
     </div>
 {% endif %}
-<div class="share">
+{#
+    <div class="share">
+      
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <!-- Blog - Post Up -->
 <ins class="adsbygoogle"
@@ -41,7 +43,7 @@ MathJax.Hub.Config({
 <script>
 (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
-</div>
+</div> #}
 <article property="blogPost" typeof="BlogPosting" resource="/{{ name }}">
     <h1 property="name">{{ title }}</h1>
     <time datetime="{{ date }}">{{ date | date(format="%d/%m/%Y") }}</time> - <span>{{ display_name }}</span>
@@ -72,7 +74,7 @@ MathJax.Hub.Config({
     <a href="http://www.meneame.net/submit.php?url=https://blog.adrianistan.eu/{{ name }}">Menéame</a> /
     <a href="https://getpocket.com/edit?url=https://blog.adrianistan.eu/{{name}}">Pocket</a>
 </div>
-<div class="share">
+{# <div class="share">
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <!-- Blog - Post comments -->
 <ins class="adsbygoogle"
@@ -84,7 +86,7 @@ MathJax.Hub.Config({
 <script>
 (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
-</div>
+</div> #}
 <div class="share">
     <h5>¡No te pierdas ningún artículo nuevo!</h5>
     <ul>
@@ -99,7 +101,7 @@ MathJax.Hub.Config({
     <ul>
         <li>Envíame unos eurillos por <a href="https://www.paypal.me/aarroyoc">PayPal</a></li>
         <li><a href="https://www.amazon.es?&_encoding=UTF8&tag=adrarrcal-21&linkCode=ur2&linkId=4c28d921ca222ecb47709b20e0211b1f&camp=3638&creative=24630">Compra en Amazon con este enlace</a></li>
-        <li>Créate una cuenta en <a href="https://n26.com/r/adriana4544">N26</a> o <a href="https://share.bnext.es/310542418">BNext</a></li>   
+        <!-- <li>Créate una cuenta en <a href="https://n26.com/r/adriana4544">N26</a> o <a href="https://share.bnext.es/310542418">BNext</a></li> -->
         <li>Conviértete en mecenas en <a href="https://liberapay.com/aarroyoc/donate">LiberaPay</a></li>
         <li>O envíame unos bitcoines a <a href="bitcoin:1NjsXtVx47gFRTTZ6AfFMitoK9x1oB8WFm">1NjsXtVx47gFRTTZ6AfFMitoK9x1oB8WFm</a></li>
     </ul>
