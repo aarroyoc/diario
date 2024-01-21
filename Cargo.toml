@@ -11,7 +11,7 @@ serde = "1.0.145"
 serde_derive = "1.0.145"
 chrono = { version = "0.4.22", features = ["serde"] }
 md5 = "0.7.0"
-ring = "0.13.5"
+ring = "0.17.7"
 data-encoding = "2.3.2"
 regex = "1.6.0"
 rand = "0.8.5"
