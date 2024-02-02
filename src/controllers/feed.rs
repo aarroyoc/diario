@@ -1,5 +1,5 @@
 use rocket::response::Redirect;
-use rocket_contrib::templates::Template;
+use rocket_dyn_templates::Template;
 
 use crate::schema::*;
 use crate::Database;
@@ -39,66 +39,72 @@ pub fn feed() -> Redirect {
 }
 
 #[get("/rss.xml")]
-pub fn feed_rss_xml(conn: Database) -> Option<Template> {
-    let posts = post::table
-        .select((post::title, post::slug, post::content, post::date))
-        .filter(post::status.eq("published"))
-        .order(post::date.desc())
-        .load::<ListingPost>(&conn.0)
-        .expect("Error loading posts");
+pub async fn feed_rss_xml(conn: Database) -> Option<Template> {
+    conn.run(|c| {
+	let posts = post::table
+	    .select((post::title, post::slug, post::content, post::date))
+	    .filter(post::status.eq("published"))
+	    .order(post::date.desc())
+	    .load::<ListingPost>(c)
+	    .expect("Error loading posts");
 
-    let posts: Vec<ListingPostTera> = posts
-        .into_iter()
-        .map(|p| {
-            let date: DateTime<FixedOffset> =
-                DateTime::from_utc(p.date, FixedOffset::west_opt(0).unwrap());
-            ListingPostTera {
-                title: p.title,
-                slug: p.slug,
-                content: p.content,
-                date_rfc822: date.to_rfc2822(),
-            }
-        })
-        .collect();
+	let posts: Vec<ListingPostTera> = posts
+	    .into_iter()
+	    .map(|p| {
+		let date: DateTime<FixedOffset> =
+		    DateTime::from_utc(p.date, FixedOffset::west_opt(0).unwrap());
+		ListingPostTera {
+		    title: p.title,
+		    slug: p.slug,
+		    content: p.content,
+		    date_rfc822: date.to_rfc2822(),
+		}
+	    })
+	    .collect();
 
-    Some(Template::render("rss", ListTera { posts }))
+	Some(Template::render("rss", ListTera { posts }))
+    }).await
 }
 
 #[get("/sitemap.xml")]
-pub fn sitemap(conn: Database) -> Option<Template> {
-    let posts = post::table
-        .select(post::slug)
-        .filter(post::status.eq("published"))
-        .load::<String>(&conn.0)
-        .expect("Error loading posts");
-    Some(Template::render("sitemap", ListString { posts }))
+pub async fn sitemap(conn: Database) -> Option<Template> {
+    conn.run(|c| {
+	let posts = post::table
+	    .select(post::slug)
+	    .filter(post::status.eq("published"))
+	    .load::<String>(c)
+	    .expect("Error loading posts");
+	Some(Template::render("sitemap", ListString { posts }))
+    }).await
 }
 
 #[get("/category/programacion/feed")]
-pub fn programacion_rss(conn: Database) -> Option<Template> {
-    let posts = tag::table
-        .inner_join(post::table)
-        .select((post::title, post::slug, post::content, post::date))
-        .filter(
-            post::status
-                .eq("published")
-                .and(tag::name.eq("programacion")),
-        )
-        .order(post::date.desc())
-        .load::<ListingPost>(&conn.0)
-        .expect("Error loading posts");
-    let posts: Vec<ListingPostTera> = posts
-        .into_iter()
-        .map(|p| {
-            let date: DateTime<FixedOffset> =
-                DateTime::from_utc(p.date, FixedOffset::west_opt(0).unwrap());
-            ListingPostTera {
-                title: p.title,
-                slug: p.slug,
-                content: p.content,
-                date_rfc822: date.to_rfc2822(),
-            }
-        })
-        .collect();
-    Some(Template::render("rss", ListTera { posts }))
+pub async fn programacion_rss(conn: Database) -> Option<Template> {
+    conn.run(|c| {
+	let posts = tag::table
+	    .inner_join(post::table)
+	    .select((post::title, post::slug, post::content, post::date))
+	    .filter(
+		post::status
+		    .eq("published")
+		    .and(tag::name.eq("programacion")),
+	    )
+	    .order(post::date.desc())
+	    .load::<ListingPost>(c)
+	    .expect("Error loading posts");
+	let posts: Vec<ListingPostTera> = posts
+	    .into_iter()
+	    .map(|p| {
+		let date: DateTime<FixedOffset> =
+		    DateTime::from_utc(p.date, FixedOffset::west_opt(0).unwrap());
+		ListingPostTera {
+		    title: p.title,
+		    slug: p.slug,
+		    content: p.content,
+		    date_rfc822: date.to_rfc2822(),
+		}
+	    })
+	    .collect();
+	Some(Template::render("rss", ListTera { posts }))
+    }).await
 }
