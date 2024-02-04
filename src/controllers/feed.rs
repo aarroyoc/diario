@@ -45,6 +45,7 @@ pub async fn feed_rss_xml(conn: Database) -> Option<Template> {
 	    .select((post::title, post::slug, post::content, post::date))
 	    .filter(post::status.eq("published"))
 	    .order(post::date.desc())
+	    .limit(10)
 	    .load::<ListingPost>(c)
 	    .expect("Error loading posts");
 
@@ -90,6 +91,7 @@ pub async fn programacion_rss(conn: Database) -> Option<Template> {
 		    .and(tag::name.eq("programacion")),
 	    )
 	    .order(post::date.desc())
+	    .limit(10)
 	    .load::<ListingPost>(c)
 	    .expect("Error loading posts");
 	let posts: Vec<ListingPostTera> = posts
