@@ -52,7 +52,7 @@ struct ListingPost {
 }
 
 #[get("/login")]
-pub fn login_get() -> Template {
+pub async fn login_get() -> Template {
     let m: HashMap<String, String> = HashMap::new();
     Template::render("admin_login", m)
 }
@@ -100,7 +100,7 @@ pub async fn list_posts(_user: Username, conn: Database) -> Template {
 }
 
 #[get("/admin/post/new")]
-pub fn post_view_new(_user: Username) -> Template {
+pub async fn post_view_new(_user: Username) -> Template {
     let m: HashMap<String, String> = HashMap::new();
     Template::render("admin_new", &m)
 }

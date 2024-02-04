@@ -34,7 +34,7 @@ struct ListString {
 }
 
 #[get("/feed")]
-pub fn feed() -> Redirect {
+pub async fn feed() -> Redirect {
     Redirect::to("/rss.xml")
 }
 
