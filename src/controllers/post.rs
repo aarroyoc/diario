@@ -3,7 +3,7 @@ use crate::schema::{comment, post, tag, username};
 use crate::Database;
 
 use rocket::request::FlashMessage;
-use rocket_dyn_templates::Template;
+use rocket_contrib::templates::Template;
 
 use chrono::prelude::*;
 use diesel::prelude::*;
@@ -49,52 +49,43 @@ struct PostViewTera {
 }
 
 #[get("/<slug>")]
-pub async fn post_view(slug: &str, flash: Option<FlashMessage<'_>>, conn: Database) -> Option<Template> {
-    let s = slug.to_string();
-    let post = conn.run(move |c| {
-	post::table
-	    .inner_join(username::table)
-	    .select((
-		username::display_name,
-		post::id,
-		post::content,
-		post::title,
-		post::excerpt,
-		post::date,
-	    ))
-	    .filter(post::slug.eq(&s).and(post::status.ne("hidden")))
-            .first::<PostViewDB>(c)
-    }).await;
+pub fn post(slug: String, flash: Option<FlashMessage>, conn: Database) -> Option<Template> {
+    let post = post::table
+        .inner_join(username::table)
+        .select((
+            username::display_name,
+            post::id,
+            post::content,
+            post::title,
+            post::excerpt,
+            post::date,
+        ))
+        .filter(post::slug.eq(&slug).and(post::status.ne("hidden")))
+        .first::<PostViewDB>(&conn.0);
 
-    let s = slug.to_string();
-    let comments = conn.run(move |c| {
-	comment::table
-	    .select((
-		comment::id,
-		comment::date,
-		comment::content,
-		comment::status,
-		comment::post_id,
-		comment::author_name,
-		comment::author_mail,
-		comment::author_url,
-		comment::author_useragent,
-	    ))
-	    .inner_join(post::table)
-	    .filter(post::slug.eq(&s).and(comment::status.eq("approved")))
-	    .order(comment::date)
-            .load::<Comment>(c)
-    }).await;
+    let comments = comment::table
+        .select((
+            comment::id,
+            comment::date,
+            comment::content,
+            comment::status,
+            comment::post_id,
+            comment::author_name,
+            comment::author_mail,
+            comment::author_url,
+            comment::author_useragent,
+        ))
+        .inner_join(post::table)
+        .filter(post::slug.eq(&slug).and(comment::status.eq("approved")))
+        .order(comment::date)
+        .load::<Comment>(&conn.0);
 
-    let s = slug.to_string();
-    let tags = conn.run(move |c| {
-	tag::table
-	    .select(tag::name)
-	    .inner_join(post::table)
-	    .filter(post::slug.eq(&s))
-	    .load::<String>(c)
-            .unwrap()
-    }).await;
+    let tags = tag::table
+        .select(tag::name)
+        .inner_join(post::table)
+        .filter(post::slug.eq(&slug))
+        .load::<String>(&conn.0)
+        .unwrap();
 
     if let Ok(post) = post {
         if let Ok(comments) = comments {
@@ -130,7 +121,7 @@ pub async fn post_view(slug: &str, flash: Option<FlashMessage<'_>>, conn: Databa
                 display_name: post.display_name,
                 content: post.content,
                 title: post.title,
-                name: slug.to_string(),
+                name: slug,
                 id: post.id,
                 img,
                 excerpt: post.excerpt,
@@ -139,7 +130,7 @@ pub async fn post_view(slug: &str, flash: Option<FlashMessage<'_>>, conn: Databa
                 tags,
                 captcha_text: captcha_text.to_string(),
                 captcha_n,
-                sent_comment: flash.map_or(false, |msg| msg.kind() == "success"),
+                sent_comment: flash.map_or(false, |msg| msg.name() == "success"),
             };
 
             Some(Template::render("post", &post))
@@ -153,24 +144,20 @@ pub async fn post_view(slug: &str, flash: Option<FlashMessage<'_>>, conn: Databa
 
 /* Be compatible with WordPress paths, but set canonical page to SLUG */
 #[get("/<year>/<month>/<day>/<slug>")]
-pub async fn post_date(
+pub fn post_date(
     year: i32,
     month: u32,
     day: u32,
-    slug: &str,
+    slug: String,
     conn: Database,
 ) -> Option<Template> {
     let date = NaiveDate::from_ymd(year, month, day);
     let date = date.and_hms(0, 0, 0);
-    let s = slug.to_string();
-    let d = date.clone();
-    let post_x = conn.run(move |c| {
-	post::table
-            .filter(post::slug.eq(&s).and(post::date.eq(d)))
-            .first::<crate::models::Post>(c)
-    }).await;
+    let post_x = post::table
+        .filter(post::slug.eq(&slug).and(post::date.eq(date)))
+        .first::<crate::models::Post>(&conn.0);
     if post_x.is_ok() {
-        post_view(slug, None, conn).await
+        post(slug, None, conn)
     } else {
         None
     }

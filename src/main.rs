@@ -1,22 +1,31 @@
+#![feature(proc_macro_hygiene, decl_macro)]
+
 #[macro_use]
 extern crate rocket;
+#[macro_use]
+extern crate rocket_contrib;
 #[macro_use]
 extern crate diesel;
 #[macro_use]
 extern crate serde_derive;
 
 mod controllers;
+mod export;
 pub mod models;
 pub mod schema;
 mod services;
 
-use rocket::fs::FileServer;
 use rocket::fairing::AdHoc;
-use rocket_dyn_templates::Template;
-use rocket_sync_db_pools::database;
+use rocket_contrib::serve::StaticFiles;
+use rocket_contrib::templates::Template;
 
 #[database("postgres_db")]
 pub struct Database(diesel::PgConnection);
+
+pub struct Config {
+    pub gmail_password: String,
+    pub hostname: String,
+}
 
 /* RUTAS
 Robots.txt
@@ -36,9 +45,20 @@ Cookie: cZSiY8L2Tlpi9p+XEeAZ6f8uAIsJD5V3yXAuHGjojkk=
 DOCUMENTAR TODO
 */
 
-#[launch]
-fn rocket() -> _ {
-    let r = rocket::build();
+fn main() {
+    let r = rocket::ignite();
+    let mut postgres = String::new();
+    {
+        let url = r
+            .config()
+            .get_table("databases")
+            .unwrap()
+            .get("postgres_db")
+            .unwrap()
+            .get("url")
+            .unwrap();
+        postgres.push_str(url.as_str().unwrap());
+    }
 
     r.attach(Template::fairing())
         .attach(Database::fairing())
@@ -47,12 +67,13 @@ fn rocket() -> _ {
             routes![
                 controllers::index::index,
                 controllers::index::index_date,
-                controllers::index::tag_view,
+                controllers::index::tag,
                 controllers::index::tag_date,
-                controllers::post::post_view,
+                controllers::post::post,
                 controllers::post::post_date,
                 controllers::comment::post_comment,
                 controllers::contact::get_contact,
+                controllers::contact::post_contact,
                 controllers::admin::list_posts,
                 controllers::admin::login_get,
                 controllers::admin::login_post,
@@ -70,5 +91,18 @@ fn rocket() -> _ {
                 controllers::feed::programacion_rss
             ],
         )
-        .mount("/static", FileServer::from("static"))
+        .mount("/static", StaticFiles::from("static"))
+        .attach(AdHoc::on_attach("ConfigState", |rocket| {
+            let gmail_password = rocket
+                .config()
+                .get_str("gmail_password")
+                .unwrap()
+                .to_string();
+            let hostname = rocket.config().get_str("host").unwrap().to_string();
+            Ok(rocket.manage(Config {
+                hostname,
+                gmail_password,
+            }))
+        }))
+        .launch();
 }

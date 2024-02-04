@@ -1,14 +1,14 @@
 use crate::schema::*;
 use crate::Database;
 
-use rocket_dyn_templates::Template;
+use rocket_contrib::templates::Template;
 
 use chrono::prelude::*;
 use diesel::prelude::*;
 
 #[get("/")]
-pub async fn index(conn: Database) -> Option<Template> {
-    index_date(Utc::now().naive_local().timestamp(), conn).await
+pub fn index(conn: Database) -> Option<Template> {
+    index_date(Utc::now().naive_local().timestamp(), conn)
 }
 
 #[derive(Queryable, Serialize)]
@@ -27,19 +27,16 @@ struct IndexPageData {
 }
 
 #[get("/?<date>")]
-pub async fn index_date(date: i64, conn: Database) -> Option<Template> {
+pub fn index_date(date: i64, conn: Database) -> Option<Template> {
     let date = NaiveDateTime::from_timestamp(date, 0);
 
-    let d = date.clone();
-    let posts = conn.run(move |c| {
-	post::table
-	    .select((post::title, post::slug, post::excerpt, post::date))
-	    .filter(post::date.lt(d).and(post::status.eq("published")))
-	    .order(post::date.desc())
-	    .limit(10)
-	    .load::<ListingPost>(c)
-            .expect("Error loading posts")
-    }).await;
+    let posts = post::table
+        .select((post::title, post::slug, post::excerpt, post::date))
+        .filter(post::date.lt(date).and(post::status.eq("published")))
+        .order(post::date.desc())
+        .limit(10)
+        .load::<ListingPost>(&conn.0)
+        .expect("Error loading posts");
 
     let last_date = if posts.is_empty() {
         None
@@ -57,29 +54,26 @@ pub async fn index_date(date: i64, conn: Database) -> Option<Template> {
 }
 
 #[get("/tag/<tag>")]
-pub async fn tag_view(tag: &str, conn: Database) -> Option<Template> {
-    tag_date(tag, Utc::now().naive_local().timestamp(), conn).await
+pub fn tag(tag: String, conn: Database) -> Option<Template> {
+    tag_date(tag, Utc::now().naive_local().timestamp(), conn)
 }
 
 #[get("/tag/<tag>?<date>")]
-pub async fn tag_date(tag: &str, date: i64, conn: Database) -> Option<Template> {
+pub fn tag_date(tag: String, date: i64, conn: Database) -> Option<Template> {
     let date = NaiveDateTime::from_timestamp(date, 0);
 
-    let t = tag.to_string();
-    let posts = conn.run(move |c| {
-	tag::table
-	    .inner_join(post::table)
-	    .select((post::title, post::slug, post::excerpt, post::date))
-	    .filter(
-		post::date
-		    .lt(date)
-		    .and(post::status.eq("published"))
-		    .and(tag::name.eq(&t)),
-	    )
-	    .order(post::date.desc())
-	    .limit(10)
-            .load::<ListingPost>(c)
-    }).await;
+    let posts = tag::table
+        .inner_join(post::table)
+        .select((post::title, post::slug, post::excerpt, post::date))
+        .filter(
+            post::date
+                .lt(date)
+                .and(post::status.eq("published"))
+                .and(tag::name.eq(&tag)),
+        )
+        .order(post::date.desc())
+        .limit(10)
+        .load::<ListingPost>(&conn.0);
 
     if let Ok(posts) = posts {
         let last_date = if posts.is_empty() {
@@ -91,7 +85,7 @@ pub async fn tag_date(tag: &str, date: i64, conn: Database) -> Option<Template> 
         let data = IndexPageData {
             posts,
             last_date,
-            tag: Some(tag.to_string()),
+            tag: Some(tag),
         };
         return Some(Template::render("index", &data));
     }

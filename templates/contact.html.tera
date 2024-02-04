@@ -7,12 +7,17 @@
 
 {% block main %}
 <h3>Contacto</h3>
-<div>
-  <p>Puedes contactar conmigo de las siguientes formas:</p>
-  <ul>
-    <li>Email: aarroyoc (AT) adrianistan.eu</li>
-    <li>Mastodon: aarroyoc@castilla.social</li>
-    <li>Twitter/X: @aarroyoca</li>
-  </ul>
+<p>Usa este formulario para ponerte en contacto conmigo. Indica tu correo para que pueda responderte</p>
+<div class="form-center">
+    <form action="/contacto" method="POST">
+        <div id="grid">
+            <label>Email: </label><input type="email" name="email" required>
+            <label>Asunto: </label><input type="text" name="title" required>
+        </div>
+        <textarea name="content"></textarea>
+        <div class="form-center">
+            <input type="submit" value="Enviar mensaje">
+        </div>
+    </form>
 </div>
 {% endblock main %}

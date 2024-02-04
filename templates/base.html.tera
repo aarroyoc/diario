@@ -63,7 +63,7 @@
         <footer property="author" typeof="Person">
             <meta property="name" content="Adrián Arroyo Calle">
             {% block footer %}
-            &copy; Adrián Arroyo Calle - 2012-2024
+            &copy; Adrián Arroyo Calle - 2012-2022
             <br>
             Contenido bajo licencia Creative-Commons 4.0 BY-NC-SA salvo que se indique lo contrario.
             <br>
